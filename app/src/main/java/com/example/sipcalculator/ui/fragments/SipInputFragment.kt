@@ -26,7 +26,6 @@ import com.example.sipcalculator.ui.MainActivity
 import com.example.sipcalculator.ui.composables.SipInputComposable
 import com.example.sipcalculator.viewmodels.SipInputViewModel
 
-@ExperimentalComposeApi
 class SipInputFragment : Fragment() {
 
     lateinit var viewModel: SipInputViewModel

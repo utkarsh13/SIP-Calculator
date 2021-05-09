@@ -19,7 +19,6 @@ import com.example.sipcalculator.Utils
 import com.example.sipcalculator.model.SipModel
 import com.example.sipcalculator.theme.*
 
-@ExperimentalComposeApi
 @Composable
 fun SipResultComposable(items: List<SipModel>) {
     SipCalculatorTheme {
@@ -89,7 +88,6 @@ fun SipResultComposable(items: List<SipModel>) {
     }
 }
 
-@ExperimentalComposeApi
 @Composable
 fun HeaderRow() {
     Surface(color = MaterialTheme.colors.secondaryVariant, elevation = 4.dp) {
@@ -138,7 +136,6 @@ fun HeaderRow() {
     }
 }
 
-@ExperimentalComposeApi
 @Preview("SipResultComposable", device = Devices.DEFAULT)
 @Composable
 fun SipResultComposablePreview() {
@@ -162,7 +159,6 @@ fun SipResultComposablePreview() {
     }
 }
 
-@ExperimentalComposeApi
 @Preview("HeaderRow", device = Devices.DEFAULT)
 @Composable
 fun HeaderRowPreview() {

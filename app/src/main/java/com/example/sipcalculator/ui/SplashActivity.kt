@@ -7,7 +7,6 @@ import androidx.compose.runtime.ExperimentalComposeApi
 import com.example.sipcalculator.R
 import kotlinx.coroutines.*
 
-@ExperimentalComposeApi
 class SplashActivity: AppCompatActivity() {
 
     private val uiScope = CoroutineScope(Dispatchers.Main)

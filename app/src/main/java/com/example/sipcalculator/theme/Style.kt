@@ -57,11 +57,9 @@ object Style {
         color = DarkGrey
     )
 
-    @ExperimentalComposeApi
     val textStyleHeaderRow = TextStyle(
         fontSize = 15.sp,
         fontWeight = FontWeight.Normal,
-        fontFamily = FontFamily.SansSerif,
-        letterSpacing = TextUnit(-0.2f, TextUnitType.Sp)
+        fontFamily = FontFamily.SansSerif
     )
 }

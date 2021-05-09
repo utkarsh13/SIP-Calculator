@@ -23,7 +23,6 @@ import com.example.sipcalculator.theme.SipCalculatorTheme
 import com.example.sipcalculator.ui.composables.SipResultComposable
 import com.example.sipcalculator.viewmodels.SipResultViewModel
 
-@ExperimentalComposeApi
 class SipResultFragment : Fragment() {
 
     companion object {

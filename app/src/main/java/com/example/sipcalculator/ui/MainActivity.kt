@@ -14,7 +14,6 @@ import android.view.Window
 import androidx.compose.runtime.ExperimentalComposeApi
 
 
-@ExperimentalComposeApi
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
