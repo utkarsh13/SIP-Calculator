@@ -12,6 +12,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.filled.Brightness6
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
@@ -25,6 +26,7 @@ import com.example.sipcalculator.ui.MainActivity
 import com.example.sipcalculator.ui.composables.SipInputComposable
 import com.example.sipcalculator.viewmodels.SipInputViewModel
 
+@ExperimentalComposeApi
 class SipInputFragment : Fragment() {
 
     lateinit var viewModel: SipInputViewModel

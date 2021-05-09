@@ -23,9 +23,8 @@ import com.example.sipcalculator.theme.*
 @Composable
 fun SipResultComposable(items: List<SipModel>) {
     SipCalculatorTheme {
-        Surface() {
+        Surface(color = MaterialTheme.colors.surface) {
             Column {
-
                 HeaderRow()
 
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -36,10 +35,8 @@ fun SipResultComposable(items: List<SipModel>) {
                             modifier = Modifier.padding(
                                 start = 8.dp, end = 8.dp, top = 0.dp
                             ),
-                            border = if (item.years % 5 == 0 && item.years != 0) BorderStroke(
-                                2.dp,
-                                DarkGrey
-                            ) else null
+                            elevation = if (item.years % 5 == 0 && item.years != 0) 8.dp else 0.dp,
+                            backgroundColor = MaterialTheme.colors.surface
                         ) {
 
                             Row(
@@ -86,6 +83,7 @@ fun SipResultComposable(items: List<SipModel>) {
 
                     }
                 }
+
             }
         }
     }
@@ -99,8 +97,8 @@ fun HeaderRow() {
             modifier = Modifier
                 .padding(
                     start = 16.dp,
-                    top = 9.dp,
-                    bottom = 9.dp,
+                    top = 12.dp,
+                    bottom = 12.dp,
                     end = 16.dp
                 )
                 .fillMaxWidth(),
@@ -144,22 +142,24 @@ fun HeaderRow() {
 @Preview("SipResultComposable", device = Devices.DEFAULT)
 @Composable
 fun SipResultComposablePreview() {
-    SipResultComposable(
-        listOf(
-            SipModel(1, 18608456.0, 128608123456.0),
-            SipModel(2, 240000.0, 1286080000000.0),
-            SipModel(3, 36000.0, 1286008.0),
-            SipModel(4, 18608456.0, 128608123456.0),
-            SipModel(5, 240000.0, 1286080000000.0),
-            SipModel(6, 36000.0, 1286008.0),
-            SipModel(7, 18623456.0, 128608123456.0),
-            SipModel(8, 240000.0, 1286080000000.0),
-            SipModel(9, 36000.0, 1286008.0),
-            SipModel(10, 186023456.0, 128608123456.0),
-            SipModel(11, 240000.0, 1286080000000.0),
-            SipModel(122, 36000.0, 1286008.0),
+    SipCalculatorTheme {
+        SipResultComposable(
+            listOf(
+                SipModel(1, 18608456.0, 128608123456.0),
+                SipModel(2, 240000.0, 1286080000000.0),
+                SipModel(3, 36000.0, 1286008.0),
+                SipModel(4, 18608456.0, 128608123456.0),
+                SipModel(5, 240000.0, 1286080000000.0),
+                SipModel(6, 36000.0, 1286008.0),
+                SipModel(7, 18623456.0, 128608123456.0),
+                SipModel(8, 240000.0, 1286080000000.0),
+                SipModel(9, 36000.0, 1286008.0),
+                SipModel(10, 186023456.0, 128608123456.0),
+                SipModel(11, 240000.0, 1286080000000.0),
+                SipModel(122, 36000.0, 1286008.0),
+            )
         )
-    )
+    }
 }
 
 @ExperimentalComposeApi

@@ -3,9 +3,11 @@ package com.example.sipcalculator.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.compose.runtime.ExperimentalComposeApi
 import com.example.sipcalculator.R
 import kotlinx.coroutines.*
 
+@ExperimentalComposeApi
 class SplashActivity: AppCompatActivity() {
 
     private val uiScope = CoroutineScope(Dispatchers.Main)

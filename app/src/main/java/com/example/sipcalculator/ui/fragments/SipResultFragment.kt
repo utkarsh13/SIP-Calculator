@@ -12,6 +12,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,6 +23,7 @@ import com.example.sipcalculator.theme.SipCalculatorTheme
 import com.example.sipcalculator.ui.composables.SipResultComposable
 import com.example.sipcalculator.viewmodels.SipResultViewModel
 
+@ExperimentalComposeApi
 class SipResultFragment : Fragment() {
 
     companion object {
