@@ -48,7 +48,7 @@ class SipInputFragment : Fragment() {
                 SipCalculatorTheme(darkTheme = false) {
                     Column {
 
-                        var isLight = remember { mutableStateOf(false) }
+                        val isLight = remember { mutableStateOf(false) }
                         TopAppBar(
                             title = { Text("SIP Calculator") },
                             elevation = 16.dp,
