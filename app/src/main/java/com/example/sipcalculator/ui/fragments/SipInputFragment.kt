@@ -11,8 +11,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Autorenew
+import androidx.compose.material.icons.filled.Brightness4
+import androidx.compose.material.icons.filled.Brightness5
 import androidx.compose.material.icons.filled.Brightness6
 import androidx.compose.runtime.ExperimentalComposeApi
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
@@ -37,19 +41,23 @@ class SipInputFragment : Fragment() {
         (activity as? MainActivity)?.supportActionBar?.title = "SIP Calculator"
 
         viewModel = ViewModelProvider(requireActivity()).get(SipInputViewModel::class.java)
+
+
         return ComposeView(requireContext()).apply {
             setContent {
                 SipCalculatorTheme(darkTheme = false) {
                     Column {
 
+                        var isLight = remember { mutableStateOf(false) }
                         TopAppBar(
                             title = { Text("SIP Calculator") },
                             elevation = 16.dp,
                             actions = {
                                 IconButton(onClick = {
+                                    isLight.value = !isLight.value
                                 }) {
                                     Icon(
-                                        Icons.Filled.Brightness6,
+                                        if (isLight.value) Icons.Filled.Brightness5 else Icons.Filled.Brightness4,
                                         "Change Theme",
                                         tint = Color.White
                                     )

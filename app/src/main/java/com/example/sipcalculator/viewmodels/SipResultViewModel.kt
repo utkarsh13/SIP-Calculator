@@ -42,8 +42,6 @@ class SipResultViewModel : ViewModel() {
             previousYrMonthlyAmount += (monthlyAmount * 12).toInt()
             previousYrSipValue = sipValue + lastYrSipCurrentValue
 
-            Log.d("*****", "monthlyAmount = $monthlyAmount       previousYrMonthlyAmount = $previousYrMonthlyAmount")
-
             list.value.add(SipModel(year, investedValue, futureValue))
         }
     }
