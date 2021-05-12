@@ -1,12 +1,15 @@
 package com.example.sipcalculator.ui.composables
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,10 +52,10 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                 && viewModel.expectedAnnualReturn.value.isNotEmpty()
 
                 && (!viewModel.isLumpsumChecked.value or (viewModel.isLumpsumChecked.value
-                && !lumpsumError.value  && viewModel.lumpsumAmount.value.isNotEmpty()))
+                && !lumpsumError.value && viewModel.lumpsumAmount.value.isNotEmpty()))
 
                 && (!viewModel.isInflationChecked.value or (viewModel.isInflationChecked.value
-                && !inflationError.value  && viewModel.inflationRate.value.isNotEmpty()))
+                && !inflationError.value && viewModel.inflationRate.value.isNotEmpty()))
     }
 
 
@@ -75,7 +79,10 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                 singleLine = true,
                 isError = amountError.value,
                 keyboardActions = KeyboardActions(onDone = { focusManager.moveFocus(FocusDirection.Down) }),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
                 colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
             )
 
@@ -96,8 +103,15 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     modifier = Modifier.weight(66f),
                     singleLine = true,
                     isError = yearError.value,
-                    keyboardActions = KeyboardActions(onDone = { focusManager.moveFocus(FocusDirection.Right) }),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = {
+                        focusManager.moveFocus(
+                            FocusDirection.Right
+                        )
+                    }),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
                 )
 
@@ -115,12 +129,15 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     singleLine = true,
                     isError = returnsError.value,
                     keyboardActions = KeyboardActions(onDone = {
-                        if(viewModel.isInflationChecked.value || viewModel.isLumpsumChecked.value)
+                        if (viewModel.isInflationChecked.value || viewModel.isLumpsumChecked.value)
                             focusManager.moveFocus(FocusDirection.Down)
                         else
                             focusManager.clearFocus()
                     }),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
                 )
             }
@@ -143,12 +160,15 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     singleLine = true,
                     isError = lumpsumError.value,
                     keyboardActions = KeyboardActions(onDone = {
-                        if(viewModel.isInflationChecked.value)
+                        if (viewModel.isInflationChecked.value)
                             focusManager.moveFocus(FocusDirection.Down)
                         else
                             focusManager.clearFocus()
                     }),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
                 )
             }
@@ -171,12 +191,20 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     singleLine = true,
                     isError = inflationError.value,
                     keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
                 )
             }
 
             Spacer(modifier = Modifier.height(120.dp))
+
+            CountrySelection()
+
+            Spacer(modifier = Modifier.height(120.dp))
+
 
             Button(
                 onClick = { calculateReturns() },
@@ -199,7 +227,12 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
 fun CheckedBoxWithText(text: String, checkedState: MutableState<Boolean>) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.clickable { checkedState.value = !checkedState.value }
+        modifier = Modifier.clickable(
+            indication = rememberRipple(bounded = true),
+            interactionSource = remember { MutableInteractionSource() }
+        ) {
+            checkedState.value = !checkedState.value
+        }
     ) {
         Checkbox(
             checked = checkedState.value,
@@ -224,6 +257,79 @@ fun SipInputComposablePreview() {
 @Preview("CheckedBoxWithText", device = Devices.DEFAULT)
 @Composable
 fun CheckedBoxWithTextPreview() {
-    CheckedBoxWithText(text = "CheckedBoxWithText", checkedState = remember {mutableStateOf(true)})
+    CheckedBoxWithText(
+        text = "CheckedBoxWithText",
+        checkedState = remember { mutableStateOf(true) })
+}
+
+@Composable
+fun DropDownList(
+    requestToOpen: Boolean = false,
+    list: List<String>,
+    request: (Boolean) -> Unit,
+    selectedString: (String) -> Unit
+) {
+    DropdownMenu(
+        modifier = Modifier.fillMaxWidth(),
+        expanded = requestToOpen,
+        onDismissRequest = { request(false) },
+    ) {
+        list.forEachIndexed { index, item ->
+            DropdownMenuItem(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    request(false)
+                    selectedString(item)
+                }
+            ) {
+                Text(item, modifier = Modifier.wrapContentWidth(), textAlign = TextAlign.Start)
+            }
+        }
+    }
+}
+
+@Composable
+fun CountrySelection() {
+    val countryList = listOf(
+        "United state",
+        "Australia",
+        "Japan",
+        "India",
+    )
+    val text = remember { mutableStateOf("") } // initial value
+    val isOpen = remember { mutableStateOf(false) } // initial value
+    val openCloseOfDropDownList: (Boolean) -> Unit = {
+        isOpen.value = it
+    }
+    val userSelectedString: (String) -> Unit = {
+        text.value = it
+    }
+    Box {
+        Column {
+            OutlinedTextField(
+                value = text.value,
+                onValueChange = { text.value = it },
+                label = { Text(text = "TextFieldTitle") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            DropDownList(
+                requestToOpen = isOpen.value,
+                list = countryList,
+                openCloseOfDropDownList,
+                userSelectedString
+            )
+        }
+        Spacer(
+            modifier = Modifier
+                .matchParentSize()
+                .background(Color.Transparent)
+                .padding(top = 8.dp)
+                .clickable(
+                    onClick = { isOpen.value = true },
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                )
+        )
+    }
 }
 
