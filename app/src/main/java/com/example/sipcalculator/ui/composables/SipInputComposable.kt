@@ -43,12 +43,22 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
     val focusManager = LocalFocusManager.current
 
     val buttonEnabled = remember(
-        viewModel.monthlyAmount.value, amountError.value,
-        viewModel.totalYears.value, yearError.value,
-        viewModel.expectedAnnualReturn.value, returnsError.value,
-        viewModel.lumpsumAmount.value, lumpsumError.value, viewModel.isLumpsumSelected.value,
-        viewModel.inflationRate.value, inflationError.value, viewModel.isInflationSelected.value,
-        viewModel.topupValue.value, topupError.value, viewModel.isTopupSelected.value, viewModel.topupType.value
+        viewModel.monthlyAmount.value,
+        amountError.value,
+        viewModel.totalYears.value,
+        yearError.value,
+        viewModel.expectedAnnualReturn.value,
+        returnsError.value,
+        viewModel.lumpsumAmount.value,
+        lumpsumError.value,
+        viewModel.isLumpsumSelected.value,
+        viewModel.inflationRate.value,
+        inflationError.value,
+        viewModel.isInflationSelected.value,
+        viewModel.topupValue.value,
+        topupError.value,
+        viewModel.isTopupSelected.value,
+        viewModel.topupType.value
     ) {
         !amountError.value && !yearError.value && !returnsError.value
                 && viewModel.monthlyAmount.value.isNotEmpty()
@@ -265,6 +275,10 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                                 list = TopupType.values().toList()
                             ) {
                                 viewModel.topupType.value = TopupType.values()[it]
+                                if (viewModel.topupType.value == TopupType.PERCENTAGE)
+                                    topupError.value = viewModel.topupValue.value.toDoubleOrNull() == null
+                                else
+                                    topupError.value = viewModel.topupValue.value.toIntOrNull() == null
                             }
                         }
                         Spacer(
