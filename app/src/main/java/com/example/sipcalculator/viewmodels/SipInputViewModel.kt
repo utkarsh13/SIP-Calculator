@@ -15,6 +15,7 @@ class SipInputViewModel: ViewModel() {
     val isInflationSelected: MutableState<Boolean> = mutableStateOf(false)
     val inflationRate: MutableState<String> = mutableStateOf("")
     val isTopupSelected: MutableState<Boolean> = mutableStateOf(false)
+    val isTopupDropdownOpen: MutableState<Boolean> = mutableStateOf(false)
     val topupType: MutableState<TopupType> = mutableStateOf(TopupType.PERCENTAGE)
     val topupValue: MutableState<String> = mutableStateOf("")
 

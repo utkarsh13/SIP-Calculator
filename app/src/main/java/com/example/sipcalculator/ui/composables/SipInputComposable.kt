@@ -1,5 +1,6 @@
 package com.example.sipcalculator.ui.composables
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -21,15 +22,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.sipcalculator.model.TopupType
 import com.example.sipcalculator.theme.DarkGrey
 import com.example.sipcalculator.theme.Grey
 import com.example.sipcalculator.theme.Style
 import com.example.sipcalculator.viewmodels.SipInputViewModel
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Unit) {
     val amountError = remember { mutableStateOf(false) }
@@ -37,6 +39,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
     val returnsError = remember { mutableStateOf(false) }
     val lumpsumError = remember { mutableStateOf(false) }
     val inflationError = remember { mutableStateOf(false) }
+    val topupError = remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
     val buttonEnabled = remember(
@@ -44,7 +47,8 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
         viewModel.totalYears.value, yearError.value,
         viewModel.expectedAnnualReturn.value, returnsError.value,
         viewModel.lumpsumAmount.value, lumpsumError.value, viewModel.isLumpsumSelected.value,
-        viewModel.inflationRate.value, inflationError.value, viewModel.isInflationSelected.value
+        viewModel.inflationRate.value, inflationError.value, viewModel.isInflationSelected.value,
+        viewModel.topupValue.value, topupError.value, viewModel.isTopupSelected.value, viewModel.topupType.value
     ) {
         !amountError.value && !yearError.value && !returnsError.value
                 && viewModel.monthlyAmount.value.isNotEmpty()
@@ -56,6 +60,9 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
 
                 && (!viewModel.isInflationSelected.value or (viewModel.isInflationSelected.value
                 && !inflationError.value && viewModel.inflationRate.value.isNotEmpty()))
+
+                && (!viewModel.isTopupSelected.value or (viewModel.isTopupSelected.value
+                && !topupError.value && viewModel.topupValue.value.isNotEmpty()))
     }
 
 
@@ -199,7 +206,84 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                 )
             }
 
-            Spacer(modifier = Modifier.height(120.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
+            CheckedBoxWithText("Topup", viewModel.isTopupSelected)
+
+            if (viewModel.isTopupSelected.value) {
+                Spacer(modifier = Modifier.height(4.dp))
+
+
+                Row(
+                    horizontalArrangement = Arrangement.Start,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                ) {
+                    OutlinedTextField(
+                        value = viewModel.topupValue.value,
+                        onValueChange = {
+                            viewModel.topupValue.value = it
+                            if (viewModel.topupType.value == TopupType.PERCENTAGE)
+                                topupError.value = it.toDoubleOrNull() == null
+                            else
+                                topupError.value = it.toIntOrNull() == null
+                        },
+                        textStyle = Style.textStyleField,
+                        label = { Text(viewModel.topupType.value.text) },
+                        modifier = Modifier.weight(60f),
+                        singleLine = true,
+                        isError = topupError.value,
+                        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Done
+                        ),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
+                    )
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    Box(modifier = Modifier.weight(40f)) {
+                        Column() {
+                            OutlinedTextField(
+                                value = viewModel.topupType.value.name.toLowerCase().capitalize(),
+                                onValueChange = { },
+                                textStyle = Style.textStyleFieldDropDown,
+                                label = { Text(text = "Topup Type") },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(66.dp),
+                                singleLine = true,
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    unfocusedBorderColor = DarkGrey
+                                )
+                            )
+                            DropDownList(
+                                isDropdownOpen = viewModel.isTopupDropdownOpen,
+                                list = TopupType.values().toList()
+                            ) {
+                                viewModel.topupType.value = TopupType.values()[it]
+                            }
+                        }
+                        Spacer(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .background(Color.Transparent)
+                                .padding(top = 8.dp)
+                                .clickable(
+                                    onClick = { viewModel.isTopupDropdownOpen.value = true },
+                                    indication = rememberRipple(bounded = true),
+                                    interactionSource = remember { MutableInteractionSource() }
+                                )
+                        )
+                    }
+                }
+
+            }
+
+            Spacer(modifier = Modifier.height(64.dp))
 
             Button(
                 onClick = { calculateReturns() },
@@ -256,75 +340,3 @@ fun CheckedBoxWithTextPreview() {
         text = "CheckedBoxWithText",
         checkedState = remember { mutableStateOf(true) })
 }
-
-@Composable
-fun DropDownList(
-    requestToOpen: Boolean = false,
-    list: List<String>,
-    request: (Boolean) -> Unit,
-    selectedString: (String) -> Unit
-) {
-    DropdownMenu(
-        modifier = Modifier.fillMaxWidth(),
-        expanded = requestToOpen,
-        onDismissRequest = { request(false) },
-    ) {
-        list.forEachIndexed { index, item ->
-            DropdownMenuItem(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    request(false)
-                    selectedString(item)
-                }
-            ) {
-                Text(item, modifier = Modifier.wrapContentWidth(), textAlign = TextAlign.Start)
-            }
-        }
-    }
-}
-
-@Composable
-fun CountrySelection() {
-    val countryList = listOf(
-        "United state",
-        "Australia",
-        "Japan",
-        "India",
-    )
-    val text = remember { mutableStateOf("") } // initial value
-    val isOpen = remember { mutableStateOf(false) } // initial value
-    val openCloseOfDropDownList: (Boolean) -> Unit = {
-        isOpen.value = it
-    }
-    val userSelectedString: (String) -> Unit = {
-        text.value = it
-    }
-    Box {
-        Column {
-            OutlinedTextField(
-                value = text.value,
-                onValueChange = { text.value = it },
-                label = { Text(text = "TextFieldTitle") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            DropDownList(
-                requestToOpen = isOpen.value,
-                list = countryList,
-                openCloseOfDropDownList,
-                userSelectedString
-            )
-        }
-        Spacer(
-            modifier = Modifier
-                .matchParentSize()
-                .background(Color.Transparent)
-                .padding(top = 8.dp)
-                .clickable(
-                    onClick = { isOpen.value = true },
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                )
-        )
-    }
-}
-

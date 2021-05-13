@@ -9,5 +9,7 @@ data class InputDataModel(
     val monthlyAmount: Int,
     val expectedReturns: Double,
     val lumpsum: Int = 0,
-    val inflationRate: Double = 0.0
+    val inflationRate: Double = 0.0,
+    val topupAmount: Int = 0,
+    val topupRate: Double = 0.0
 ): Parcelable

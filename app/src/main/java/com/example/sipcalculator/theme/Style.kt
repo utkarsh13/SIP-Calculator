@@ -46,4 +46,10 @@ object Style {
         fontWeight = FontWeight.Medium,
         color = DarkGrey
     )
+
+    val textStyleFieldDropDown = TextStyle(
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Normal,
+        color = DarkGrey
+    )
 }
