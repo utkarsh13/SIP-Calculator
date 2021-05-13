@@ -43,18 +43,18 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
         viewModel.monthlyAmount.value, amountError.value,
         viewModel.totalYears.value, yearError.value,
         viewModel.expectedAnnualReturn.value, returnsError.value,
-        viewModel.lumpsumAmount.value, lumpsumError.value, viewModel.isLumpsumChecked.value,
-        viewModel.inflationRate.value, inflationError.value, viewModel.isInflationChecked.value
+        viewModel.lumpsumAmount.value, lumpsumError.value, viewModel.isLumpsumSelected.value,
+        viewModel.inflationRate.value, inflationError.value, viewModel.isInflationSelected.value
     ) {
         !amountError.value && !yearError.value && !returnsError.value
                 && viewModel.monthlyAmount.value.isNotEmpty()
                 && viewModel.totalYears.value.isNotEmpty()
                 && viewModel.expectedAnnualReturn.value.isNotEmpty()
 
-                && (!viewModel.isLumpsumChecked.value or (viewModel.isLumpsumChecked.value
+                && (!viewModel.isLumpsumSelected.value or (viewModel.isLumpsumSelected.value
                 && !lumpsumError.value && viewModel.lumpsumAmount.value.isNotEmpty()))
 
-                && (!viewModel.isInflationChecked.value or (viewModel.isInflationChecked.value
+                && (!viewModel.isInflationSelected.value or (viewModel.isInflationSelected.value
                 && !inflationError.value && viewModel.inflationRate.value.isNotEmpty()))
     }
 
@@ -129,7 +129,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     singleLine = true,
                     isError = returnsError.value,
                     keyboardActions = KeyboardActions(onDone = {
-                        if (viewModel.isInflationChecked.value || viewModel.isLumpsumChecked.value)
+                        if (viewModel.isInflationSelected.value || viewModel.isLumpsumSelected.value)
                             focusManager.moveFocus(FocusDirection.Down)
                         else
                             focusManager.clearFocus()
@@ -144,9 +144,9 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            CheckedBoxWithText("Initial Amount", viewModel.isLumpsumChecked)
+            CheckedBoxWithText("Initial Amount", viewModel.isLumpsumSelected)
 
-            if (viewModel.isLumpsumChecked.value) {
+            if (viewModel.isLumpsumSelected.value) {
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = viewModel.lumpsumAmount.value,
@@ -160,7 +160,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     singleLine = true,
                     isError = lumpsumError.value,
                     keyboardActions = KeyboardActions(onDone = {
-                        if (viewModel.isInflationChecked.value)
+                        if (viewModel.isInflationSelected.value)
                             focusManager.moveFocus(FocusDirection.Down)
                         else
                             focusManager.clearFocus()
@@ -175,9 +175,9 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            CheckedBoxWithText("Inflation Rate", viewModel.isInflationChecked)
+            CheckedBoxWithText("Inflation Rate", viewModel.isInflationSelected)
 
-            if (viewModel.isInflationChecked.value) {
+            if (viewModel.isInflationSelected.value) {
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = viewModel.inflationRate.value,
@@ -200,11 +200,6 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
             }
 
             Spacer(modifier = Modifier.height(120.dp))
-
-            CountrySelection()
-
-            Spacer(modifier = Modifier.height(120.dp))
-
 
             Button(
                 onClick = { calculateReturns() },

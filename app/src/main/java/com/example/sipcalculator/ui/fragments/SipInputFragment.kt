@@ -32,8 +32,8 @@ class SipInputFragment : Fragment() {
                             viewModel.totalYears.value.toInt(),
                             viewModel.monthlyAmount.value.toInt(),
                             viewModel.expectedAnnualReturn.value.toDouble(),
-                            if (viewModel.isLumpsumChecked.value) viewModel.lumpsumAmount.value.toInt() else 0,
-                            if (viewModel.isInflationChecked.value) viewModel.inflationRate.value.toDouble() else 0.0
+                            if (viewModel.isLumpsumSelected.value) viewModel.lumpsumAmount.value.toInt() else 0,
+                            if (viewModel.isInflationSelected.value) viewModel.inflationRate.value.toDouble() else 0.0
                         )
 
                     )
