@@ -146,7 +146,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     singleLine = true,
                     isError = returnsError.value,
                     keyboardActions = KeyboardActions(onDone = {
-                        if (viewModel.isInflationSelected.value || viewModel.isLumpsumSelected.value)
+                        if (viewModel.isInflationSelected.value || viewModel.isLumpsumSelected.value || viewModel.isTopupSelected.value)
                             focusManager.moveFocus(FocusDirection.Down)
                         else
                             focusManager.clearFocus()
@@ -177,7 +177,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     singleLine = true,
                     isError = lumpsumError.value,
                     keyboardActions = KeyboardActions(onDone = {
-                        if (viewModel.isInflationSelected.value)
+                        if (viewModel.isInflationSelected.value || viewModel.isTopupSelected.value)
                             focusManager.moveFocus(FocusDirection.Down)
                         else
                             focusManager.clearFocus()
@@ -207,7 +207,12 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     isError = inflationError.value,
-                    keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                    keyboardActions = KeyboardActions(onDone = {
+                        if (viewModel.isTopupSelected.value)
+                            focusManager.moveFocus(FocusDirection.Down)
+                        else
+                            focusManager.clearFocus()
+                    }),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
