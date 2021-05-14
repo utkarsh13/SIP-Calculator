@@ -31,11 +31,11 @@ class SipInputFragment : Fragment() {
                     val resultsFragment = SipResultFragment.newInstance(
                         InputDataModel(
                             viewModel.totalYears.value.toInt(),
-                            viewModel.monthlyAmount.value.toInt(),
+                            viewModel.monthlyAmount.value.toDouble(),
                             viewModel.expectedAnnualReturn.value.toDouble(),
-                            if (viewModel.isLumpsumSelected.value) viewModel.lumpsumAmount.value.toInt() else 0,
+                            if (viewModel.isLumpsumSelected.value) viewModel.lumpsumAmount.value.toDouble() else 0.0,
                             if (viewModel.isInflationSelected.value) viewModel.inflationRate.value.toDouble() else 0.0,
-                            if (viewModel.isTopupSelected.value && viewModel.topupType.value == TopupType.AMOUNT) viewModel.topupValue.value.toInt() else 0,
+                            if (viewModel.isTopupSelected.value && viewModel.topupType.value == TopupType.AMOUNT) viewModel.topupValue.value.toDouble() else 0.0,
                             if (viewModel.isTopupSelected.value && viewModel.topupType.value == TopupType.PERCENTAGE) viewModel.topupValue.value.toDouble() else 0.0
                         )
 

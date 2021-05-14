@@ -17,11 +17,11 @@ class SipResultViewModel : ViewModel() {
         val monthlyRate = yearlyRate / 12
         val topupRate = inputData.topupRate / 12
 
-        if (inputData.lumpsum != 0) {
-            list.value.add(SipModel(0, inputData.lumpsum.toDouble(), inputData.lumpsum.toDouble()))
+        if (inputData.lumpsum != 0.0) {
+            list.value.add(SipModel(0, inputData.lumpsum, inputData.lumpsum))
         }
 
-        var previousYrMonthlyAmount = 0
+        var previousYrMonthlyAmount = 0.0
         var previousYrSipValue = 0.0
 
         for (year in 1..inputData.years) {
@@ -35,7 +35,7 @@ class SipResultViewModel : ViewModel() {
             val lumpsumValue = inputData.lumpsum * ((1.0 + yearlyRate).pow(year))
 
 
-            val investedValue = monthlyAmount * 12 + previousYrMonthlyAmount + inputData.lumpsum.toDouble()
+            val investedValue = monthlyAmount * 12 + previousYrMonthlyAmount + inputData.lumpsum
             val futureValue = sipValue + lastYrSipCurrentValue + lumpsumValue
 
             previousYrMonthlyAmount += (monthlyAmount * 12).toInt()
