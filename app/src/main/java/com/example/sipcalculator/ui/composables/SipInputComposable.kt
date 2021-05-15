@@ -3,6 +3,7 @@ package com.example.sipcalculator.ui.composables
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -12,7 +13,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +33,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
     val returnsError = remember { mutableStateOf(false) }
     val lumpsumError = remember { mutableStateOf(false) }
     val inflationError = remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
 
     val buttonEnabled = remember(
         viewModel.monthlyAmount.value, amountError.value,
@@ -69,7 +74,8 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 isError = amountError.value,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardActions = KeyboardActions(onDone = { focusManager.moveFocus(FocusDirection.Down) }),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                 colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
             )
 
@@ -90,7 +96,8 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     modifier = Modifier.weight(66f),
                     singleLine = true,
                     isError = yearError.value,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardActions = KeyboardActions(onDone = { focusManager.moveFocus(FocusDirection.Right) }),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                     colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
                 )
 
@@ -107,7 +114,13 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     modifier = Modifier.weight(34f),
                     singleLine = true,
                     isError = returnsError.value,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardActions = KeyboardActions(onDone = {
+                        if(viewModel.isInflationChecked.value || viewModel.isLumpsumChecked.value)
+                            focusManager.moveFocus(FocusDirection.Down)
+                        else
+                            focusManager.clearFocus()
+                    }),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                     colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
                 )
             }
@@ -129,7 +142,13 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     isError = lumpsumError.value,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardActions = KeyboardActions(onDone = {
+                        if(viewModel.isInflationChecked.value)
+                            focusManager.moveFocus(FocusDirection.Down)
+                        else
+                            focusManager.clearFocus()
+                    }),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                     colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
                 )
             }
@@ -151,7 +170,8 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     isError = inflationError.value,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                     colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
                 )
             }
