@@ -201,3 +201,9 @@ fun SipInputComposablePreview() {
     SipInputComposable(SipInputViewModel()) {}
 }
 
+@Preview("CheckedBoxWithText", device = Devices.DEFAULT)
+@Composable
+fun CheckedBoxWithTextPreview() {
+    CheckedBoxWithText(text = "CheckedBoxWithText", checkedState = remember {mutableStateOf(true)})
+}
+
