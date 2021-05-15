@@ -31,11 +31,19 @@ object Style {
 
     val textStyleAmount = TextStyle(
         fontSize = 16.sp,
-        fontWeight = FontWeight.Medium
+        fontWeight = FontWeight.Medium,
+        color = DarkerGrey
     )
 
     val textStyleYear = TextStyle(
         fontSize = 16.sp,
-        fontWeight = FontWeight.Normal
+        fontWeight = FontWeight.Normal,
+        color = DarkerGrey
+    )
+
+    val textStyleField = TextStyle(
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Medium,
+        color = DarkGrey
     )
 }

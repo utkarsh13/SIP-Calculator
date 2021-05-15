@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sipcalculator.R
+import com.example.sipcalculator.ui.MainActivity
 import com.example.sipcalculator.ui.composables.SipInputComposable
 import com.example.sipcalculator.viewmodels.SipInputViewModel
 
@@ -20,6 +20,8 @@ class SipInputFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (activity as? MainActivity)?.supportActionBar?.title = "SIP Calculator"
+
         viewModel = ViewModelProvider(requireActivity()).get(SipInputViewModel::class.java)
         return ComposeView(requireContext()).apply {
             setContent {

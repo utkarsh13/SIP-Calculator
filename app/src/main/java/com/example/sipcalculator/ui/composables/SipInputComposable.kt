@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +15,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.sipcalculator.theme.DarkGrey
+import com.example.sipcalculator.theme.Grey
 import com.example.sipcalculator.theme.Style
 import com.example.sipcalculator.viewmodels.SipInputViewModel
 
@@ -53,11 +52,13 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     viewModel.monthlyAmount.value = it
                     amountError.value = it.toIntOrNull() == null
                 },
+                textStyle = Style.textStyleField,
                 label = { Text("Monthly Investment (₹)") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 isError = amountError.value,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -72,11 +73,13 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                         viewModel.totalYears.value = it
                         yearError.value = it.toIntOrNull() == null
                     },
+                    textStyle = Style.textStyleField,
                     label = { Text("Investment Period (years)") },
                     modifier = Modifier.fillMaxWidth(0.6f),
                     singleLine = true,
                     isError = yearError.value,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
                 )
 
                 Spacer(modifier = Modifier.width(20.dp))
@@ -87,11 +90,13 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                         viewModel.expectedAnnualReturn.value = it
                         returnsError.value = it.toDoubleOrNull() == null
                     },
+                    textStyle = Style.textStyleField,
                     label = { Text(text = "Returns (%)") },
                     modifier = Modifier.fillMaxWidth(1f),
                     singleLine = true,
                     isError = returnsError.value,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
                 )
             }
 
@@ -102,7 +107,8 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                 modifier = Modifier
                     .wrapContentWidth()
                     .align(Alignment.CenterHorizontally),
-                enabled = buttonEnabled
+                enabled = buttonEnabled,
+                colors = ButtonDefaults.buttonColors(disabledContentColor = Grey)
             ) {
                 Text(
                     text = "Calculate projected SIP returns",
@@ -117,6 +123,6 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
 @Preview("SipInputComposable", device = Devices.DEFAULT)
 @Composable
 fun SipInputComposablePreview() {
-    SipInputComposable(SipInputViewModel(), {})
+    SipInputComposable(SipInputViewModel()) {}
 }
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.sipcalculator.ui.MainActivity
 import com.example.sipcalculator.ui.composables.SipResultComposable
 import com.example.sipcalculator.viewmodels.SipResultViewModel
 
@@ -34,6 +35,7 @@ class SipResultFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (activity as? MainActivity)?.supportActionBar?.title = "SIP Projected Returns"
 
         viewModel = ViewModelProvider(requireActivity()).get(SipResultViewModel::class.java)
 
