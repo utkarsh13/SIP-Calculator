@@ -1,11 +1,13 @@
 package com.example.sipcalculator.ui.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -25,16 +27,20 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
     val amountError = remember { mutableStateOf(false) }
     val yearError = remember { mutableStateOf(false) }
     val returnsError = remember { mutableStateOf(false) }
+    val lumpsumError = remember { mutableStateOf(false) }
 
     val buttonEnabled = remember(
-        key1 = viewModel.monthlyAmount.value,
-        key2 = viewModel.totalYears.value,
-        key3 = viewModel.expectedAnnualReturn.value,
+        viewModel.monthlyAmount.value, amountError.value,
+        viewModel.totalYears.value, yearError.value,
+        viewModel.expectedAnnualReturn.value, returnsError.value,
+        viewModel.lumpsumAmount.value, lumpsumError.value, viewModel.isLumpsumChecked.value
     ) {
         !amountError.value && !yearError.value && !returnsError.value
                 && viewModel.monthlyAmount.value.isNotEmpty()
                 && viewModel.totalYears.value.isNotEmpty()
                 && viewModel.expectedAnnualReturn.value.isNotEmpty()
+                && (!viewModel.isLumpsumChecked.value or
+                (viewModel.isLumpsumChecked.value && !lumpsumError.value  && viewModel.expectedAnnualReturn.value.isNotEmpty()))
     }
 
 
@@ -100,6 +106,27 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                 )
             }
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            CheckedBoxWithText("Initial Amount", viewModel.isLumpsumChecked)
+
+            if (viewModel.isLumpsumChecked.value) {
+                OutlinedTextField(
+                    value = viewModel.lumpsumAmount.value,
+                    onValueChange = {
+                        viewModel.lumpsumAmount.value = it
+                        lumpsumError.value = it.toIntOrNull() == null
+                    },
+                    textStyle = Style.textStyleField,
+                    label = { Text("Initial Investment Amount (₹)") },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    isError = lumpsumError.value,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
+                )
+            }
+
             Spacer(modifier = Modifier.height(164.dp))
 
             Button(
@@ -115,8 +142,26 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     style = Style.buttonStyle
                 )
             }
-
         }
+    }
+}
+
+@Composable
+fun CheckedBoxWithText(text: String, checkedState: MutableState<Boolean>) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.clickable { checkedState.value = !checkedState.value }
+    ) {
+        Checkbox(
+            checked = checkedState.value,
+            onCheckedChange = { checkedState.value = it },
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(
+            text = text,
+            style = Style.textStyleYear
+
+        )
     }
 }
 

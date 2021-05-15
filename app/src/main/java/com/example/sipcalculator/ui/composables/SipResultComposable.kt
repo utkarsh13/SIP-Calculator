@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,7 +25,7 @@ fun SipResultComposable(items: List<SipModel>) {
     format.maximumFractionDigits = 0
     Surface(color = Color(0xffF3F3F3)) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            itemsIndexed(items = items) { index: Int, item: SipModel ->
+            itemsIndexed(items = items) { _, item: SipModel ->
 
                 Spacer(modifier = Modifier.height(4.dp))
 
@@ -33,10 +34,10 @@ fun SipResultComposable(items: List<SipModel>) {
                     Row(
                         modifier = Modifier
                             .padding(
-                                start = 16.dp,
+                                start = 12.dp,
                                 top = 6.dp,
                                 bottom = 6.dp,
-                                end = 16.dp
+                                end = 12.dp
                             )
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
@@ -45,21 +46,25 @@ fun SipResultComposable(items: List<SipModel>) {
                         Text(
                             text = "${item.years} years",
                             style = Style.textStyleYear,
-                            modifier = Modifier.width(80.dp)
+                            modifier = Modifier.weight(9f),
                         )
 
                         Text(
                             text = format.format(item.invested),
                             style = Style.textStyleAmount,
-                            modifier = Modifier.width(130.dp),
-                            textAlign = TextAlign.End
+                            modifier = Modifier.weight(20f),
+                            textAlign = TextAlign.End,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
 
                         Text(
                             text = format.format(item.finalAmount),
                             style = Style.textStyleAmount,
-                            modifier = Modifier.width(135.dp),
-                            textAlign = TextAlign.End
+                            modifier = Modifier.weight(21f),
+                            textAlign = TextAlign.End,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
@@ -74,9 +79,9 @@ fun SipResultComposable(items: List<SipModel>) {
 fun SipResultComposablePreview() {
     SipResultComposable(
         listOf(
-            SipModel(1, 120000, 128608),
-            SipModel(1, 240000, 128608),
-            SipModel(1, 360000, 128608),
+            SipModel(12, 18608123456.0, 128608123456.0),
+            SipModel(1, 240000.0, 1286080000000.0),
+            SipModel(1, 360000.0, 128608.0),
         )
     )
 }

@@ -29,7 +29,8 @@ class SipInputFragment : Fragment() {
                     val resultsFragment = SipResultFragment.newInstance(
                         viewModel.totalYears.value.toInt(),
                         viewModel.monthlyAmount.value.toInt(),
-                        viewModel.expectedAnnualReturn.value.toDouble()
+                        viewModel.expectedAnnualReturn.value.toDouble(),
+                        if (viewModel.isLumpsumChecked.value) viewModel.lumpsumAmount.value.toIntOrNull() else null
                     )
                     requireActivity().supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, resultsFragment)

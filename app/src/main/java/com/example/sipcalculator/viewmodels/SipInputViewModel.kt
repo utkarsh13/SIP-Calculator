@@ -13,6 +13,8 @@ class SipInputViewModel: ViewModel() {
 
     val expectedAnnualReturn: MutableState<String> = mutableStateOf("")
 
+    val isLumpsumChecked: MutableState<Boolean> = mutableStateOf(false)
+
     val lumpsumAmount: MutableState<String> = mutableStateOf("")
 
     init {
