@@ -1,7 +1,9 @@
 package com.example.sipcalculator.ui.composables
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
@@ -42,6 +44,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
+                .verticalScroll(state = rememberScrollState(), enabled = true)
         ) {
 
             OutlinedTextField(
@@ -92,7 +95,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                 )
             }
 
-            Spacer(modifier = Modifier.height(64.dp))
+            Spacer(modifier = Modifier.height(164.dp))
 
             Button(
                 onClick = { calculateReturns() },
