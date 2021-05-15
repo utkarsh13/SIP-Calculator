@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.runtime.ExperimentalComposeApi
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -33,7 +30,6 @@ class SipResultFragment : Fragment() {
 
     lateinit var viewModel: SipResultViewModel
 
-    @ExperimentalComposeApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,8 +46,7 @@ class SipResultFragment : Fragment() {
         }
         return ComposeView(requireContext()).apply {
             setContent {
-                val items: MutableState<List<String>> = mutableStateOf(listOf("aaa", "bbbbbb", "ccc"))
-                SipResultComposable(items)
+                SipResultComposable(viewModel.list.value)
             }
         }
     }

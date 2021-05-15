@@ -9,22 +9,21 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import com.example.sipcalculator.SipModel
+import com.example.sipcalculator.theme.Style
 import java.util.*
 
-@ExperimentalComposeApi
 @Composable
-fun SipResultComposable(items: MutableState<List<String>>) {
+fun SipResultComposable(items: List<SipModel>) {
+    val format = NumberFormat.getCurrencyInstance(Locale("en", "in"))
+    format.maximumFractionDigits = 0
     Surface(color = Color(0xffF3F3F3)) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            itemsIndexed(items = items.value) { index: Int, item: String ->
+            itemsIndexed(items = items) { index: Int, item: SipModel ->
                 Row(
                     modifier = Modifier
                         .padding(
@@ -38,34 +37,22 @@ fun SipResultComposable(items: MutableState<List<String>>) {
 
                 ) {
                     Text(
-                        text = "${index + 1} years",
-                        style = TextStyle(
-                            fontSize = TextUnit(20f, TextUnitType.Sp),
-                            fontWeight = FontWeight.Normal
-                        ),
-                        modifier = Modifier.width(100.dp)
+                        text = "${item.years} years",
+                        style = Style.textStyleYear,
+                        modifier = Modifier.width(80.dp)
                     )
-                    Text(text = item,
-                        style = TextStyle(
-                            fontSize = TextUnit(20f, TextUnitType.Sp),
-                            fontWeight = FontWeight.Medium
-                        ),
-                        modifier = Modifier.width(120.dp),
+
+                    Text(
+                        text = format.format(item.invested),
+                        style = Style.textStyleAmount,
+                        modifier = Modifier.width(130.dp),
                         textAlign = TextAlign.Center
                     )
-                    val amount = 100000f * index*4
 
-                    val format: NumberFormat =
-                        NumberFormat.getCurrencyInstance(Locale("en", "in"))
-                    format.maximumFractionDigits = 0
-                    val moneyString: String = format.format(amount)
-
-                    Text(text = moneyString,
-                        style = TextStyle(
-                            fontSize = TextUnit(20f, TextUnitType.Sp),
-                            fontWeight = FontWeight.SemiBold
-                        ),
-                        modifier = Modifier.width(100.dp),
+                    Text(
+                        text = format.format(item.finalAmount),
+                        style = Style.textStyleAmount,
+                        modifier = Modifier.width(130.dp),
                         textAlign = TextAlign.End
                     )
                 }
@@ -75,10 +62,13 @@ fun SipResultComposable(items: MutableState<List<String>>) {
     }
 }
 
-@ExperimentalComposeApi
 @Preview("SipResultComposable", device = Devices.DEFAULT)
 @Composable
 fun SipResultComposablePreview() {
-    val items: MutableState<List<String>> = remember { mutableStateOf(listOf("12345675", "12345675", "12345675")) }
-    SipResultComposable(items)
+    SipResultComposable(listOf(
+        SipModel(1,12000000, 12860008),
+        SipModel(1,24000000, 12860008),
+        SipModel(1,36000000, 12860008),
+
+        ))
 }

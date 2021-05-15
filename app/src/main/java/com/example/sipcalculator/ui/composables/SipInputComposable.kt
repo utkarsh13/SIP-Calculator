@@ -16,6 +16,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.sipcalculator.theme.Style
 import com.example.sipcalculator.viewmodels.SipInputViewModel
 
 @Composable
@@ -25,11 +26,14 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
     val returnsError = remember { mutableStateOf(false) }
 
     val buttonEnabled = remember(
-        key1 = amountError.value,
-        key2 = yearError.value,
-        key3 = returnsError.value,
+        key1 = viewModel.monthlyAmount.value,
+        key2 = viewModel.totalYears.value,
+        key3 = viewModel.expectedAnnualReturn.value,
     ) {
         !amountError.value && !yearError.value && !returnsError.value
+                && viewModel.monthlyAmount.value.isNotEmpty()
+                && viewModel.totalYears.value.isNotEmpty()
+                && viewModel.expectedAnnualReturn.value.isNotEmpty()
     }
 
 
@@ -80,7 +84,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                         viewModel.expectedAnnualReturn.value = it
                         returnsError.value = it.toDoubleOrNull() == null
                     },
-                    label = { Text("Rate of Return") },
+                    label = { Text(text = "Rate of Return") },
                     modifier = Modifier.fillMaxWidth(1f),
                     singleLine = true,
                     isError = returnsError.value,
@@ -97,7 +101,10 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     .align(Alignment.CenterHorizontally),
                 enabled = buttonEnabled
             ) {
-                Text("Calculate projected SIP returns")
+                Text(
+                    text = "Calculate projected SIP returns",
+                    style = Style.buttonStyle
+                )
             }
 
         }

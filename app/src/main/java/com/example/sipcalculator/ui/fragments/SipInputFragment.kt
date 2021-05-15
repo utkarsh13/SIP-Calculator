@@ -16,7 +16,6 @@ class SipInputFragment : Fragment() {
 
     lateinit var viewModel: SipInputViewModel
 
-    @ExperimentalComposeApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,8 +25,8 @@ class SipInputFragment : Fragment() {
             setContent {
                 SipInputComposable(viewModel) {
                     val resultsFragment = SipResultFragment.newInstance(
-                        viewModel.monthlyAmount.value.toInt(),
                         viewModel.totalYears.value.toInt(),
+                        viewModel.monthlyAmount.value.toInt(),
                         viewModel.expectedAnnualReturn.value.toDouble()
                     )
                     requireActivity().supportFragmentManager.beginTransaction()
