@@ -1,4 +1,4 @@
-package com.example.sipcalculator
+package com.example.sipcalculator.model
 
 data class SipModel(
     val years: Int,

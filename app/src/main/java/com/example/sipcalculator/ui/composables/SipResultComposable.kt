@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.sipcalculator.SipModel
+import com.example.sipcalculator.model.SipModel
 import com.example.sipcalculator.theme.Style
 import java.util.*
 

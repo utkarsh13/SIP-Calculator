@@ -28,19 +28,25 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
     val yearError = remember { mutableStateOf(false) }
     val returnsError = remember { mutableStateOf(false) }
     val lumpsumError = remember { mutableStateOf(false) }
+    val inflationError = remember { mutableStateOf(false) }
 
     val buttonEnabled = remember(
         viewModel.monthlyAmount.value, amountError.value,
         viewModel.totalYears.value, yearError.value,
         viewModel.expectedAnnualReturn.value, returnsError.value,
-        viewModel.lumpsumAmount.value, lumpsumError.value, viewModel.isLumpsumChecked.value
+        viewModel.lumpsumAmount.value, lumpsumError.value, viewModel.isLumpsumChecked.value,
+        viewModel.inflationRate.value, inflationError.value, viewModel.isInflationChecked.value
     ) {
         !amountError.value && !yearError.value && !returnsError.value
                 && viewModel.monthlyAmount.value.isNotEmpty()
                 && viewModel.totalYears.value.isNotEmpty()
                 && viewModel.expectedAnnualReturn.value.isNotEmpty()
-                && (!viewModel.isLumpsumChecked.value or
-                (viewModel.isLumpsumChecked.value && !lumpsumError.value  && viewModel.expectedAnnualReturn.value.isNotEmpty()))
+
+                && (!viewModel.isLumpsumChecked.value or (viewModel.isLumpsumChecked.value
+                && !lumpsumError.value  && viewModel.lumpsumAmount.value.isNotEmpty()))
+
+                && (!viewModel.isInflationChecked.value or (viewModel.isInflationChecked.value
+                && !inflationError.value  && viewModel.inflationRate.value.isNotEmpty()))
     }
 
 
@@ -81,14 +87,14 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     },
                     textStyle = Style.textStyleField,
                     label = { Text("Investment Period (years)") },
-                    modifier = Modifier.fillMaxWidth(0.6f),
+                    modifier = Modifier.weight(66f),
                     singleLine = true,
                     isError = yearError.value,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
                 )
 
-                Spacer(modifier = Modifier.width(20.dp))
+                Spacer(modifier = Modifier.width(16.dp))
 
                 OutlinedTextField(
                     value = viewModel.expectedAnnualReturn.value,
@@ -98,7 +104,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     },
                     textStyle = Style.textStyleField,
                     label = { Text(text = "Returns (%)") },
-                    modifier = Modifier.fillMaxWidth(1f),
+                    modifier = Modifier.weight(34f),
                     singleLine = true,
                     isError = returnsError.value,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -106,11 +112,12 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             CheckedBoxWithText("Initial Amount", viewModel.isLumpsumChecked)
 
             if (viewModel.isLumpsumChecked.value) {
+                Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = viewModel.lumpsumAmount.value,
                     onValueChange = {
@@ -127,7 +134,29 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                 )
             }
 
-            Spacer(modifier = Modifier.height(164.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
+            CheckedBoxWithText("Inflation Rate", viewModel.isInflationChecked)
+
+            if (viewModel.isInflationChecked.value) {
+                Spacer(modifier = Modifier.height(4.dp))
+                OutlinedTextField(
+                    value = viewModel.inflationRate.value,
+                    onValueChange = {
+                        viewModel.inflationRate.value = it
+                        inflationError.value = it.toDoubleOrNull() == null
+                    },
+                    textStyle = Style.textStyleField,
+                    label = { Text("Inflation (%)") },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    isError = inflationError.value,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = DarkGrey)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(120.dp))
 
             Button(
                 onClick = { calculateReturns() },
@@ -155,6 +184,7 @@ fun CheckedBoxWithText(text: String, checkedState: MutableState<Boolean>) {
         Checkbox(
             checked = checkedState.value,
             onCheckedChange = { checkedState.value = it },
+            colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colors.primary)
         )
         Spacer(modifier = Modifier.width(10.dp))
         Text(
