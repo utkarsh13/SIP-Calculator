@@ -50,7 +50,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     viewModel.monthlyAmount.value = it
                     amountError.value = it.toIntOrNull() == null
                 },
-                label = { Text("Monthly Investment") },
+                label = { Text("Monthly Investment (₹)") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 isError = amountError.value,
@@ -69,8 +69,8 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                         viewModel.totalYears.value = it
                         yearError.value = it.toIntOrNull() == null
                     },
-                    label = { Text("Investment Period") },
-                    modifier = Modifier.fillMaxWidth(0.5f),
+                    label = { Text("Investment Period (years)") },
+                    modifier = Modifier.fillMaxWidth(0.6f),
                     singleLine = true,
                     isError = yearError.value,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
@@ -84,7 +84,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                         viewModel.expectedAnnualReturn.value = it
                         returnsError.value = it.toDoubleOrNull() == null
                     },
-                    label = { Text(text = "Rate of Return") },
+                    label = { Text(text = "Returns (%)") },
                     modifier = Modifier.fillMaxWidth(1f),
                     singleLine = true,
                     isError = returnsError.value,
