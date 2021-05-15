@@ -1,0 +1,59 @@
+package com.example.sipcalculator.ui.fragments
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.runtime.ExperimentalComposeApi
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.platform.ComposeView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.sipcalculator.ui.composables.SipResultComposable
+import com.example.sipcalculator.viewmodels.SipResultViewModel
+
+class SipResultFragment : Fragment() {
+
+    companion object {
+        private const val ARG_YEARS = "years"
+        private const val ARG_MONTHLY_AMOUNT = "monthly_amount"
+        private const val ARG_EXPECTED_RETURN = "expected_return"
+
+        @JvmStatic
+        fun newInstance(years: Int, monthlyAmount: Int, expectedReturn: Double) =
+            SipResultFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_YEARS, years)
+                    putInt(ARG_MONTHLY_AMOUNT, monthlyAmount)
+                    putDouble(ARG_EXPECTED_RETURN, expectedReturn)
+                }
+            }
+    }
+
+    lateinit var viewModel: SipResultViewModel
+
+    @ExperimentalComposeApi
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        viewModel = ViewModelProvider(requireActivity()).get(SipResultViewModel::class.java)
+
+        arguments?.let {
+            viewModel.initList(
+                it.getInt(ARG_YEARS),
+                it.getInt(ARG_MONTHLY_AMOUNT),
+                it.getDouble(ARG_EXPECTED_RETURN)
+            )
+        }
+        return ComposeView(requireContext()).apply {
+            setContent {
+                val items: MutableState<List<String>> = mutableStateOf(listOf("aaa", "bbbbbb", "ccc"))
+                SipResultComposable(items)
+            }
+        }
+    }
+
+}
