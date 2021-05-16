@@ -1,6 +1,5 @@
 package com.example.sipcalculator.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -22,28 +21,25 @@ class SipResultViewModel : ViewModel() {
             list.value.add(SipModel(0, inputData.lumpsum.toDouble(), inputData.lumpsum.toDouble()))
         }
 
-        var previousMonthlyAmount = 0
-//        var previousSipValue = 0.0
+        var previousYrMonthlyAmount = 0
+        var previousYrSipValue = 0.0
 
         for (year in 1..inputData.years) {
-            val months = year * 12
             val monthlyAmount = inputData.monthlyAmount * ((1.0 + topupRate).pow(year-1)) + (inputData.topupAmount*(year-1))
 
 
+            val lastYrSipCurrentValue = previousYrSipValue * ((1.0 + monthlyRate).pow(12))
 
             val sipValue =
-                ((monthlyAmount * ((1 + monthlyRate).pow((months)) - 1) / monthlyRate) * (1 + monthlyRate))
+                ((monthlyAmount * ((1 + monthlyRate).pow((12)) - 1) / monthlyRate) * (1 + monthlyRate))
             val lumpsumValue = inputData.lumpsum * ((1.0 + yearlyRate).pow(year))
 
 
-            val investedValue = monthlyAmount * 12 + previousMonthlyAmount + inputData.lumpsum.toDouble()
-            val futureValue = sipValue + lumpsumValue
+            val investedValue = monthlyAmount * 12 + previousYrMonthlyAmount + inputData.lumpsum.toDouble()
+            val futureValue = sipValue + lastYrSipCurrentValue + lumpsumValue
 
-
-
-            previousMonthlyAmount += (monthlyAmount * 12).toInt()
-//            previousSipValue = sipValue
-
+            previousYrMonthlyAmount += (monthlyAmount * 12).toInt()
+            previousYrSipValue = sipValue + lastYrSipCurrentValue
 
             list.value.add(SipModel(year, investedValue, futureValue))
         }
