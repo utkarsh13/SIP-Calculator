@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.sipcalculator.model.TopupType
 
-class SipInputViewModel: ViewModel() {
+class SipInputViewModel : ViewModel() {
 
     val totalYears: MutableState<String> = mutableStateOf("")
     val monthlyAmount: MutableState<String> = mutableStateOf("")
@@ -19,7 +19,39 @@ class SipInputViewModel: ViewModel() {
     val topupType: MutableState<TopupType> = mutableStateOf(TopupType.PERCENTAGE)
     val topupValue: MutableState<String> = mutableStateOf("")
 
+    val amountError = mutableStateOf(false)
+    val yearError = mutableStateOf(false)
+    val returnsError = mutableStateOf(false)
+    val lumpsumError = mutableStateOf(false)
+    val inflationError = mutableStateOf(false)
+    val topupError = mutableStateOf(false)
+
     init {
 
+    }
+    
+    val buttonEnabledCalculation: Array<Any> = arrayOf(
+        monthlyAmount.value, amountError.value,
+        totalYears.value, yearError.value,
+        expectedAnnualReturn.value, returnsError.value,
+        lumpsumAmount.value, lumpsumError.value, isLumpsumSelected.value,
+        inflationRate.value, inflationError.value, isInflationSelected.value,
+        topupValue.value, topupError.value, isTopupSelected.value, topupType.value
+    )
+
+    fun getButtonEnabled(): Boolean {
+        return !amountError.value && !yearError.value && !returnsError.value
+                && monthlyAmount.value.isNotEmpty()
+                && totalYears.value.isNotEmpty()
+                && expectedAnnualReturn.value.isNotEmpty()
+
+                && (!isLumpsumSelected.value or (isLumpsumSelected.value
+                && !lumpsumError.value && lumpsumAmount.value.isNotEmpty()))
+
+                && (!isInflationSelected.value or (isInflationSelected.value
+                && !inflationError.value && inflationRate.value.isNotEmpty()))
+
+                && (!isTopupSelected.value or (isTopupSelected.value
+                && !topupError.value && topupValue.value.isNotEmpty()))
     }
 }
