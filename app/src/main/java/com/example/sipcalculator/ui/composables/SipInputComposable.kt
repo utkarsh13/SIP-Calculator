@@ -1,7 +1,6 @@
 package com.example.sipcalculator.ui.composables
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -232,7 +231,7 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
 
                     //TOPUP TYPE
                     Box(modifier = Modifier.weight(36f)) {
-                        Column() {
+                        Column {
                             OutlinedTextField(
                                 value = vm.topupType.value.name.toLowerCase().capitalize(),
                                 onValueChange = { },

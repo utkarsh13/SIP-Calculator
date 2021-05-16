@@ -26,11 +26,11 @@ fun SipResultComposable(items: List<SipModel>) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             itemsIndexed(items = items) { _, item: SipModel ->
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(6.dp))
 
                 Card(
                     modifier = Modifier.padding(
-                        start = 4.dp, end = 4.dp, top = 2.dp
+                        start = 4.dp, end = 4.dp, top = 0.dp
                     ),
                     border = if(item.years%5==0 && item.years!=0) BorderStroke(2.dp, DarkGrey) else null
                 ) {
