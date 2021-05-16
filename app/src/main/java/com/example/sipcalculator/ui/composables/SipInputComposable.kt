@@ -12,7 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -311,41 +310,8 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
     }
 }
 
-@Composable
-fun CheckedBoxWithText(text: String, checkedState: MutableState<Boolean>) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.clickable(
-            indication = rememberRipple(bounded = true),
-            interactionSource = remember { MutableInteractionSource() }
-        ) {
-            checkedState.value = !checkedState.value
-        }
-    ) {
-        Checkbox(
-            checked = checkedState.value,
-            onCheckedChange = { checkedState.value = it },
-            colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colors.primary)
-        )
-        Spacer(modifier = Modifier.width(10.dp))
-        Text(
-            text = text,
-            style = Style.textStyleYear
-
-        )
-    }
-}
-
 @Preview("SipInputComposable", device = Devices.DEFAULT)
 @Composable
 fun SipInputComposablePreview() {
     SipInputComposable(SipInputViewModel()) {}
-}
-
-@Preview("CheckedBoxWithText", device = Devices.DEFAULT)
-@Composable
-fun CheckedBoxWithTextPreview() {
-    CheckedBoxWithText(
-        text = "CheckedBoxWithText",
-        checkedState = remember { mutableStateOf(true) })
 }
