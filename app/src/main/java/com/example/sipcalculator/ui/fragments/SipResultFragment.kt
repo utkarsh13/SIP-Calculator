@@ -34,7 +34,7 @@ class SipResultFragment : Fragment() {
     ): View {
         (activity as? MainActivity)?.supportActionBar?.title = "SIP Projected Returns"
 
-        viewModel = ViewModelProvider(requireActivity()).get(SipResultViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(SipResultViewModel::class.java)
 
         arguments?.let {
             viewModel.initList(it.getParcelable(ARG_INPUTDATA)!!)

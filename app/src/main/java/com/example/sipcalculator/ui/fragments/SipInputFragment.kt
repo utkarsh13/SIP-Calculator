@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sipcalculator.R
 import com.example.sipcalculator.model.InputDataModel
+import com.example.sipcalculator.model.TopupType
 import com.example.sipcalculator.ui.MainActivity
 import com.example.sipcalculator.ui.composables.SipInputComposable
 import com.example.sipcalculator.viewmodels.SipInputViewModel
@@ -33,7 +34,9 @@ class SipInputFragment : Fragment() {
                             viewModel.monthlyAmount.value.toInt(),
                             viewModel.expectedAnnualReturn.value.toDouble(),
                             if (viewModel.isLumpsumSelected.value) viewModel.lumpsumAmount.value.toInt() else 0,
-                            if (viewModel.isInflationSelected.value) viewModel.inflationRate.value.toDouble() else 0.0
+                            if (viewModel.isInflationSelected.value) viewModel.inflationRate.value.toDouble() else 0.0,
+                            if (viewModel.isTopupSelected.value && viewModel.topupType.value == TopupType.AMOUNT) viewModel.topupValue.value.toInt() else 0,
+                            if (viewModel.isTopupSelected.value && viewModel.topupType.value == TopupType.PERCENTAGE) viewModel.topupValue.value.toDouble() else 0.0
                         )
 
                     )
