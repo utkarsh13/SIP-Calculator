@@ -33,7 +33,7 @@ import com.example.sipcalculator.viewmodels.SipInputViewModel
 
 @SuppressLint("DefaultLocale")
 @Composable
-fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Unit) {
+fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
     val amountError = remember { mutableStateOf(false) }
     val yearError = remember { mutableStateOf(false) }
     val returnsError = remember { mutableStateOf(false) }
@@ -43,36 +43,26 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
     val focusManager = LocalFocusManager.current
 
     val buttonEnabled = remember(
-        viewModel.monthlyAmount.value,
-        amountError.value,
-        viewModel.totalYears.value,
-        yearError.value,
-        viewModel.expectedAnnualReturn.value,
-        returnsError.value,
-        viewModel.lumpsumAmount.value,
-        lumpsumError.value,
-        viewModel.isLumpsumSelected.value,
-        viewModel.inflationRate.value,
-        inflationError.value,
-        viewModel.isInflationSelected.value,
-        viewModel.topupValue.value,
-        topupError.value,
-        viewModel.isTopupSelected.value,
-        viewModel.topupType.value
+        vm.monthlyAmount.value, amountError.value,
+        vm.totalYears.value, yearError.value,
+        vm.expectedAnnualReturn.value, returnsError.value,
+        vm.lumpsumAmount.value, lumpsumError.value, vm.isLumpsumSelected.value,
+        vm.inflationRate.value, inflationError.value, vm.isInflationSelected.value,
+        vm.topupValue.value, topupError.value, vm.isTopupSelected.value, vm.topupType.value
     ) {
         !amountError.value && !yearError.value && !returnsError.value
-                && viewModel.monthlyAmount.value.isNotEmpty()
-                && viewModel.totalYears.value.isNotEmpty()
-                && viewModel.expectedAnnualReturn.value.isNotEmpty()
+                && vm.monthlyAmount.value.isNotEmpty()
+                && vm.totalYears.value.isNotEmpty()
+                && vm.expectedAnnualReturn.value.isNotEmpty()
 
-                && (!viewModel.isLumpsumSelected.value or (viewModel.isLumpsumSelected.value
-                && !lumpsumError.value && viewModel.lumpsumAmount.value.isNotEmpty()))
+                && (!vm.isLumpsumSelected.value or (vm.isLumpsumSelected.value
+                && !lumpsumError.value && vm.lumpsumAmount.value.isNotEmpty()))
 
-                && (!viewModel.isInflationSelected.value or (viewModel.isInflationSelected.value
-                && !inflationError.value && viewModel.inflationRate.value.isNotEmpty()))
+                && (!vm.isInflationSelected.value or (vm.isInflationSelected.value
+                && !inflationError.value && vm.inflationRate.value.isNotEmpty()))
 
-                && (!viewModel.isTopupSelected.value or (viewModel.isTopupSelected.value
-                && !topupError.value && viewModel.topupValue.value.isNotEmpty()))
+                && (!vm.isTopupSelected.value or (vm.isTopupSelected.value
+                && !topupError.value && vm.topupValue.value.isNotEmpty()))
     }
 
 
@@ -85,9 +75,9 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
         ) {
 
             OutlinedTextField(
-                value = viewModel.monthlyAmount.value,
+                value = vm.monthlyAmount.value,
                 onValueChange = {
-                    viewModel.monthlyAmount.value = it
+                    vm.monthlyAmount.value = it
                     amountError.value = it.toIntOrNull() == null
                 },
                 textStyle = Style.textStyleField,
@@ -110,9 +100,9 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                 modifier = Modifier.fillMaxWidth()
             ) {
                 OutlinedTextField(
-                    value = viewModel.totalYears.value,
+                    value = vm.totalYears.value,
                     onValueChange = {
-                        viewModel.totalYears.value = it
+                        vm.totalYears.value = it
                         yearError.value = it.toIntOrNull() == null
                     },
                     textStyle = Style.textStyleField,
@@ -135,9 +125,9 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                 Spacer(modifier = Modifier.width(16.dp))
 
                 OutlinedTextField(
-                    value = viewModel.expectedAnnualReturn.value,
+                    value = vm.expectedAnnualReturn.value,
                     onValueChange = {
-                        viewModel.expectedAnnualReturn.value = it
+                        vm.expectedAnnualReturn.value = it
                         returnsError.value = it.toDoubleOrNull() == null
                     },
                     textStyle = Style.textStyleField,
@@ -146,7 +136,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     singleLine = true,
                     isError = returnsError.value,
                     keyboardActions = KeyboardActions(onDone = {
-                        if (viewModel.isInflationSelected.value || viewModel.isLumpsumSelected.value || viewModel.isTopupSelected.value)
+                        if (vm.isInflationSelected.value || vm.isLumpsumSelected.value || vm.isTopupSelected.value)
                             focusManager.moveFocus(FocusDirection.Down)
                         else
                             focusManager.clearFocus()
@@ -161,14 +151,14 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            CheckedBoxWithText("Initial Amount", viewModel.isLumpsumSelected)
+            CheckedBoxWithText("Initial Amount", vm.isLumpsumSelected)
 
-            if (viewModel.isLumpsumSelected.value) {
+            if (vm.isLumpsumSelected.value) {
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
-                    value = viewModel.lumpsumAmount.value,
+                    value = vm.lumpsumAmount.value,
                     onValueChange = {
-                        viewModel.lumpsumAmount.value = it
+                        vm.lumpsumAmount.value = it
                         lumpsumError.value = it.toIntOrNull() == null
                     },
                     textStyle = Style.textStyleField,
@@ -177,7 +167,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     singleLine = true,
                     isError = lumpsumError.value,
                     keyboardActions = KeyboardActions(onDone = {
-                        if (viewModel.isInflationSelected.value || viewModel.isTopupSelected.value)
+                        if (vm.isInflationSelected.value || vm.isTopupSelected.value)
                             focusManager.moveFocus(FocusDirection.Down)
                         else
                             focusManager.clearFocus()
@@ -192,14 +182,14 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            CheckedBoxWithText("Inflation Rate", viewModel.isInflationSelected)
+            CheckedBoxWithText("Inflation Rate", vm.isInflationSelected)
 
-            if (viewModel.isInflationSelected.value) {
+            if (vm.isInflationSelected.value) {
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
-                    value = viewModel.inflationRate.value,
+                    value = vm.inflationRate.value,
                     onValueChange = {
-                        viewModel.inflationRate.value = it
+                        vm.inflationRate.value = it
                         inflationError.value = it.toDoubleOrNull() == null
                     },
                     textStyle = Style.textStyleField,
@@ -208,7 +198,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     singleLine = true,
                     isError = inflationError.value,
                     keyboardActions = KeyboardActions(onDone = {
-                        if (viewModel.isTopupSelected.value)
+                        if (vm.isTopupSelected.value)
                             focusManager.moveFocus(FocusDirection.Down)
                         else
                             focusManager.clearFocus()
@@ -223,9 +213,9 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            CheckedBoxWithText("Topup", viewModel.isTopupSelected)
+            CheckedBoxWithText("Topup", vm.isTopupSelected)
 
-            if (viewModel.isTopupSelected.value) {
+            if (vm.isTopupSelected.value) {
                 Spacer(modifier = Modifier.height(4.dp))
 
 
@@ -236,16 +226,16 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                         .wrapContentHeight()
                 ) {
                     OutlinedTextField(
-                        value = viewModel.topupValue.value,
+                        value = vm.topupValue.value,
                         onValueChange = {
-                            viewModel.topupValue.value = it
-                            if (viewModel.topupType.value == TopupType.PERCENTAGE)
+                            vm.topupValue.value = it
+                            if (vm.topupType.value == TopupType.PERCENTAGE)
                                 topupError.value = it.toDoubleOrNull() == null
                             else
                                 topupError.value = it.toIntOrNull() == null
                         },
                         textStyle = Style.textStyleField,
-                        label = { Text(viewModel.topupType.value.text) },
+                        label = { Text(vm.topupType.value.text) },
                         modifier = Modifier.weight(60f),
                         singleLine = true,
                         isError = topupError.value,
@@ -262,7 +252,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                     Box(modifier = Modifier.weight(40f)) {
                         Column() {
                             OutlinedTextField(
-                                value = viewModel.topupType.value.name.toLowerCase().capitalize(),
+                                value = vm.topupType.value.name.toLowerCase().capitalize(),
                                 onValueChange = { },
                                 textStyle = Style.textStyleFieldDropDown,
                                 label = { Text(text = "Topup Type") },
@@ -276,14 +266,14 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                                 )
                             )
                             DropDownList(
-                                isDropdownOpen = viewModel.isTopupDropdownOpen,
+                                isDropdownOpen = vm.isTopupDropdownOpen,
                                 list = TopupType.values().toList()
                             ) {
-                                viewModel.topupType.value = TopupType.values()[it]
-                                if (viewModel.topupType.value == TopupType.PERCENTAGE)
-                                    topupError.value = viewModel.topupValue.value.toDoubleOrNull() == null
+                                vm.topupType.value = TopupType.values()[it]
+                                if (vm.topupType.value == TopupType.PERCENTAGE)
+                                    topupError.value = vm.topupValue.value.toDoubleOrNull() == null
                                 else
-                                    topupError.value = viewModel.topupValue.value.toIntOrNull() == null
+                                    topupError.value = vm.topupValue.value.toIntOrNull() == null
                             }
                         }
                         Spacer(
@@ -292,7 +282,7 @@ fun SipInputComposable(viewModel: SipInputViewModel, calculateReturns: () -> Uni
                                 .background(Color.Transparent)
                                 .padding(top = 8.dp)
                                 .clickable(
-                                    onClick = { viewModel.isTopupDropdownOpen.value = true },
+                                    onClick = { vm.isTopupDropdownOpen.value = true },
                                     indication = rememberRipple(bounded = true),
                                     interactionSource = remember { MutableInteractionSource() }
                                 )
