@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sipcalculator.model.TopupType
+import com.example.sipcalculator.theme.BgColor
 import com.example.sipcalculator.theme.DarkGrey
 import com.example.sipcalculator.theme.Grey
 import com.example.sipcalculator.theme.Style
@@ -65,7 +66,7 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
     }
 
 
-    Surface(color = Color(0xffF3F3F3)) {
+    Surface(color = BgColor) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -106,7 +107,7 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
                     },
                     textStyle = Style.textStyleField,
                     label = { Text("Investment Period (years)") },
-                    modifier = Modifier.weight(66f),
+                    modifier = Modifier.weight(64f),
                     singleLine = true,
                     isError = yearError.value,
                     keyboardActions = KeyboardActions(onDone = {
@@ -131,7 +132,7 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
                     },
                     textStyle = Style.textStyleField,
                     label = { Text(text = "Returns (%)") },
-                    modifier = Modifier.weight(34f),
+                    modifier = Modifier.weight(36f),
                     singleLine = true,
                     isError = returnsError.value,
                     keyboardActions = KeyboardActions(onDone = {
@@ -235,7 +236,7 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
                         },
                         textStyle = Style.textStyleField,
                         label = { Text(vm.topupType.value.text) },
-                        modifier = Modifier.weight(60f),
+                        modifier = Modifier.weight(64f),
                         singleLine = true,
                         isError = topupError.value,
                         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -248,7 +249,7 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
 
                     Spacer(modifier = Modifier.width(16.dp))
 
-                    Box(modifier = Modifier.weight(40f)) {
+                    Box(modifier = Modifier.weight(36f)) {
                         Column() {
                             OutlinedTextField(
                                 value = vm.topupType.value.name.toLowerCase().capitalize(),

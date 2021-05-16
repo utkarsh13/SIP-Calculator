@@ -49,7 +49,13 @@ object Style {
 
     val textStyleFieldDropDown = TextStyle(
         fontSize = 18.sp,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
+        color = DarkGrey
+    )
+
+    val textStyleFieldDropDownItem = TextStyle(
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Medium,
         color = DarkGrey
     )
 }

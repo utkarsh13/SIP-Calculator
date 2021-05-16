@@ -1,6 +1,7 @@
 package com.example.sipcalculator.ui.composables
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -10,16 +11,20 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import com.example.sipcalculator.theme.DropdownColor
+import com.example.sipcalculator.theme.Style
 
 @SuppressLint("DefaultLocale")
 @Composable
-fun <T: Enum<T>>DropDownList(
+fun <T : Enum<T>> DropDownList(
     isDropdownOpen: MutableState<Boolean> = mutableStateOf(false),
     list: List<Enum<T>>,
     onClick: (Int) -> Unit
 ) {
     DropdownMenu(
-        modifier = Modifier.wrapContentSize(),
+        modifier = Modifier
+            .wrapContentSize()
+            .background(DropdownColor),
         expanded = isDropdownOpen.value,
         onDismissRequest = { isDropdownOpen.value = false },
     ) {
@@ -31,7 +36,12 @@ fun <T: Enum<T>>DropDownList(
                     onClick(index)
                 }
             ) {
-                Text(item.name.toLowerCase().capitalize(), modifier = Modifier.wrapContentSize(), textAlign = TextAlign.Start)
+                Text(
+                    item.name.toLowerCase().capitalize(),
+                    modifier = Modifier.wrapContentSize(),
+                    textAlign = TextAlign.Start,
+                    style = Style.textStyleFieldDropDownItem
+                )
             }
         }
     }
