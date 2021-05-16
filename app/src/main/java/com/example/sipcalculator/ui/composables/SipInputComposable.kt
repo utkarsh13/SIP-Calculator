@@ -114,7 +114,7 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
                     singleLine = true,
                     isError = vm.returnsError.value,
                     keyboardActions = KeyboardActions(onDone = {
-                        if (vm.isInflationSelected.value || vm.isLumpsumSelected.value || vm.isTopupSelected.value)
+                        if (vm.isInflationSelected.value || vm.isLumpsumSelected.value)
                             focusManager.moveFocus(FocusDirection.Down)
                         else
                             focusManager.clearFocus()

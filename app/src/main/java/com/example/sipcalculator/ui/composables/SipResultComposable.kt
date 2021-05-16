@@ -15,14 +15,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.sipcalculator.Utils
 import com.example.sipcalculator.model.SipModel
 import com.example.sipcalculator.theme.Style
 import java.util.*
 
 @Composable
 fun SipResultComposable(items: List<SipModel>) {
-    val format = NumberFormat.getCurrencyInstance(Locale("en", "in"))
-    format.maximumFractionDigits = 0
     Surface(color = Color(0xffF3F3F3)) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             itemsIndexed(items = items) { _, item: SipModel ->
@@ -50,7 +49,7 @@ fun SipResultComposable(items: List<SipModel>) {
                         )
 
                         Text(
-                            text = format.format(item.invested),
+                            text = Utils.getMoneyInWords(item.invested),
                             style = Style.textStyleAmount,
                             modifier = Modifier.weight(20f),
                             textAlign = TextAlign.End,
@@ -59,7 +58,7 @@ fun SipResultComposable(items: List<SipModel>) {
                         )
 
                         Text(
-                            text = format.format(item.finalAmount),
+                            text = Utils.getMoneyInWords(item.finalAmount),
                             style = Style.textStyleAmount,
                             modifier = Modifier.weight(21f),
                             textAlign = TextAlign.End,
@@ -81,7 +80,7 @@ fun SipResultComposablePreview() {
         listOf(
             SipModel(12, 18608123456.0, 128608123456.0),
             SipModel(1, 240000.0, 1286080000000.0),
-            SipModel(1, 360000.0, 128608.0),
+            SipModel(1, 36000.0, 1286008.0),
         )
     )
 }
