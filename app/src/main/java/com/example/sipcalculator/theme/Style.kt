@@ -58,4 +58,10 @@ object Style {
         fontWeight = FontWeight.Medium,
         color = DarkGrey
     )
+
+    val textStyleHeaderRow = TextStyle(
+        fontSize = 18.sp,
+        fontWeight = FontWeight.ExtraBold,
+        color = DarkerGrey
+    )
 }
