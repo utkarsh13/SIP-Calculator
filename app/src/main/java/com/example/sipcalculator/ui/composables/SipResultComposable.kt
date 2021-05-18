@@ -30,7 +30,7 @@ fun SipResultComposable(items: List<SipModel>) {
 
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 itemsIndexed(items = items) { _, item: SipModel ->
-                    Spacer(modifier = Modifier.height(6.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     Card(
                         modifier = Modifier.padding(
@@ -92,7 +92,7 @@ fun SipResultComposable(items: List<SipModel>) {
 
 @Composable
 fun HeaderRow() {
-    Column(modifier = Modifier.background(ItemBgColor)) {
+    Surface(color = ItemBgColor, elevation = 4.dp) {
         Row(
             modifier = Modifier
                 .padding(
@@ -103,7 +103,6 @@ fun HeaderRow() {
                 )
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
-
         ) {
             Text(
                 text = "Duration",
