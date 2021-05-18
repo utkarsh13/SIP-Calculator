@@ -4,7 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sipcalculator.model.InputDataModel
@@ -41,7 +45,12 @@ class SipResultFragment : Fragment() {
         }
         return ComposeView(requireContext()).apply {
             setContent {
-                SipResultComposable(viewModel.list.value)
+                Column {
+
+                    TopAppBar(title = { Text("SIP Projected Returns") }, elevation = 16.dp)
+
+                    SipResultComposable(viewModel.list.value)
+                }
             }
         }
     }

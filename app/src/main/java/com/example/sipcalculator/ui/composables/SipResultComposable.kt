@@ -34,7 +34,7 @@ fun SipResultComposable(items: List<SipModel>) {
 
                     Card(
                         modifier = Modifier.padding(
-                            start = 4.dp, end = 4.dp, top = 0.dp
+                            start = 8.dp, end = 8.dp, top = 0.dp
                         ),
                         border = if (item.years % 5 == 0 && item.years != 0) BorderStroke(
                             2.dp,
@@ -45,10 +45,10 @@ fun SipResultComposable(items: List<SipModel>) {
                         Row(
                             modifier = Modifier
                                 .padding(
-                                    start = 12.dp,
+                                    start = 10.dp,
                                     top = 9.dp,
                                     bottom = 9.dp,
-                                    end = 12.dp
+                                    end = 10.dp
                                 )
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
