@@ -54,4 +54,25 @@ class SipInputViewModel : ViewModel() {
                 && (!isTopupSelected.value or (isTopupSelected.value
                 && !topupError.value && topupValue.value.isNotEmpty()))
     }
+
+    fun resetAllFields() {
+        totalYears.value = ""
+        monthlyAmount.value = ""
+        expectedAnnualReturn.value = ""
+        isLumpsumSelected.value = false
+        lumpsumAmount.value = ""
+        isInflationSelected.value = false
+        inflationRate.value = ""
+        isTopupSelected.value = false
+        isTopupDropdownOpen.value = false
+        topupType.value = TopupType.PERCENTAGE
+        topupValue.value = ""
+
+        amountError.value = false
+        yearError.value = false
+        returnsError.value = false
+        lumpsumError.value = false
+        inflationError.value = false
+        topupError.value = false
+    }
 }

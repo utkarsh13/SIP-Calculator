@@ -5,8 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Autorenew
+import androidx.compose.material.icons.filled.Brightness6
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -33,7 +39,21 @@ class SipInputFragment : Fragment() {
             setContent {
                 Column {
 
-                    TopAppBar(title = { Text("SIP Calculator") }, elevation = 16.dp)
+                    TopAppBar(
+                        title = { Text("SIP Calculator") },
+                        elevation = 16.dp,
+                        actions = {
+                            IconButton(onClick = {
+                            }) {
+                                Icon(Icons.Filled.Brightness6, "Change Theme", tint = Color.White)
+                            }
+                            IconButton(onClick = {
+                                viewModel.resetAllFields()
+                            }) {
+                                Icon(Icons.Filled.Autorenew, "Reset", tint = Color.White)
+                            }
+                        }
+                    )
 
                     SipInputComposable(viewModel) {
                         val resultsFragment = SipResultFragment.newInstance(
