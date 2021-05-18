@@ -56,26 +56,30 @@ class SipInputFragment : Fragment() {
                     )
 
                     SipInputComposable(viewModel) {
-                        val resultsFragment = SipResultFragment.newInstance(
-                            InputDataModel(
-                                viewModel.totalYears.value.toInt(),
-                                viewModel.monthlyAmount.value.toDouble(),
-                                viewModel.expectedAnnualReturn.value.toDouble(),
-                                if (viewModel.isLumpsumSelected.value) viewModel.lumpsumAmount.value.toDouble() else 0.0,
-                                if (viewModel.isInflationSelected.value) viewModel.inflationRate.value.toDouble() else 0.0,
-                                if (viewModel.isTopupSelected.value && viewModel.topupType.value == TopupType.AMOUNT) viewModel.topupValue.value.toDouble() else 0.0,
-                                if (viewModel.isTopupSelected.value && viewModel.topupType.value == TopupType.PERCENTAGE) viewModel.topupValue.value.toDouble() else 0.0
-                            )
-
-                        )
-                        requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, resultsFragment)
-                            .addToBackStack(null)
-                            .commit()
+                        openResultFragment()
                     }
                 }
             }
         }
+    }
+
+    private fun openResultFragment() {
+        val resultsFragment = SipResultFragment.newInstance(
+            InputDataModel(
+                viewModel.totalYears.value.toInt(),
+                viewModel.monthlyAmount.value.toDouble(),
+                viewModel.expectedAnnualReturn.value.toDouble(),
+                if (viewModel.isLumpsumSelected.value) viewModel.lumpsumAmount.value.toDouble() else 0.0,
+                if (viewModel.isInflationSelected.value) viewModel.inflationRate.value.toDouble() else 0.0,
+                if (viewModel.isTopupSelected.value && viewModel.topupType.value == TopupType.AMOUNT) viewModel.topupValue.value.toDouble() else 0.0,
+                if (viewModel.isTopupSelected.value && viewModel.topupType.value == TopupType.PERCENTAGE) viewModel.topupValue.value.toDouble() else 0.0
+            )
+
+        )
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, resultsFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 }
