@@ -39,7 +39,7 @@ class SipInputFragment : Fragment() {
             setContent {
                 Column {
 
-                    TopAppBar(
+                    TopAppBar (
                         title = { Text("SIP Calculator") },
                         elevation = 16.dp,
                         actions = {

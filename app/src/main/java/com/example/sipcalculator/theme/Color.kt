@@ -12,3 +12,10 @@ val DropdownColor = Color(0xffF0F0F0)
 val DarkerGrey = Color(0xFF505050)
 val DarkGrey = Color(0xFF606060)
 val Grey = Color(0xFF808080)
+
+
+val PestoGreenPrimary = Color(0xFF00aa8d)
+val PestoGreenDarker = Color(0xFF00bf9a)
+val PestoGreenLighter = Color(0xFF008975)
+
+
