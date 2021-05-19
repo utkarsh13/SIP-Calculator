@@ -14,8 +14,11 @@ val DarkGrey = Color(0xFF606060)
 val Grey = Color(0xFF808080)
 
 
-val PestoGreenPrimary = Color(0xFF00aa8d)
-val PestoGreenDarker = Color(0xFF00bf9a)
-val PestoGreenLighter = Color(0xFF008975)
+val Teal800 = Color(0xFF00695c)
+val Teal800Darker = Color(0xFF003d33)
+
+val Red800 = Color(0xFFc62828)
+val Red800Darker = Color(0xFF8e0000)
+
 
 

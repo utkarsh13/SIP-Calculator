@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sipcalculator.model.InputDataModel
+import com.example.sipcalculator.theme.SipCalculatorTheme
 import com.example.sipcalculator.ui.composables.SipResultComposable
 import com.example.sipcalculator.viewmodels.SipResultViewModel
 
@@ -48,21 +49,22 @@ class SipResultFragment : Fragment() {
 
         return ComposeView(requireContext()).apply {
             setContent {
-                Column {
-
-                    TopAppBar(
-                        title = { Text("SIP Projected Returns") },
-                        elevation = 16.dp,
-                        navigationIcon = {
-                            IconButton(onClick = {
-                                activity?.supportFragmentManager?.popBackStack()
-                            }) {
-                                Icon(imageVector = Icons.Filled.ArrowBackIos, "Back")
+                SipCalculatorTheme(darkTheme = false) {
+                    Column {
+                        TopAppBar(
+                            title = { Text("SIP Projected Returns") },
+                            elevation = 16.dp,
+                            navigationIcon = {
+                                IconButton(onClick = {
+                                    activity?.supportFragmentManager?.popBackStack()
+                                }) {
+                                    Icon(imageVector = Icons.Filled.ArrowBackIos, "Back")
+                                }
                             }
-                        }
-                    )
+                        )
 
-                    SipResultComposable(viewModel.list.value)
+                        SipResultComposable(viewModel.list.value)
+                    }
                 }
             }
         }

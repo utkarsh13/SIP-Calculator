@@ -6,30 +6,43 @@ import androidx.compose.material.Typography
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
-        primary = Purple200,
-        primaryVariant = Purple700,
-        secondary = Teal200
+    primary = Teal800,
+    primaryVariant = Teal800Darker,
+    secondary = Red800,
+    secondaryVariant = Red800Darker,
+    background = BgColor,
+    surface = BgColor,
+    error = Red800,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color.Black,
+    onSurface = Color.Black,
+    onError = Color.White,
 )
 
 private val LightColorPalette = lightColors(
-        primary = Purple500,
-        primaryVariant = Purple700,
-        secondary = Teal200
-
-        /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
+    primary = Teal800,
+    primaryVariant = Teal800Darker,
+    secondary = Red800,
+    secondaryVariant = Red800Darker,
+    background = BgColor,
+    surface = BgColor,
+    error = Red800,
     onPrimary = Color.White,
-    onSecondary = Color.Black,
+    onSecondary = Color.White,
     onBackground = Color.Black,
     onSurface = Color.Black,
-    */
+    onError = Color.White
 )
 
 @Composable
-fun SipCalculatorTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun SipCalculatorTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable() () -> Unit
+) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
@@ -37,9 +50,9 @@ fun SipCalculatorTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Com
     }
 
     MaterialTheme(
-            colors = colors,
-            typography = Typography(),
-            shapes = Shapes,
-            content = content
+        colors = colors,
+        typography = Typography(),
+        shapes = Shapes,
+        content = content
     )
 }

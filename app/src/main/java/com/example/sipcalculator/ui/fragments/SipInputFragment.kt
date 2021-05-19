@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.sipcalculator.R
 import com.example.sipcalculator.model.InputDataModel
 import com.example.sipcalculator.model.TopupType
+import com.example.sipcalculator.theme.SipCalculatorTheme
 import com.example.sipcalculator.ui.MainActivity
 import com.example.sipcalculator.ui.composables.SipInputComposable
 import com.example.sipcalculator.viewmodels.SipInputViewModel
@@ -37,26 +38,32 @@ class SipInputFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(SipInputViewModel::class.java)
         return ComposeView(requireContext()).apply {
             setContent {
-                Column {
+                SipCalculatorTheme(darkTheme = false) {
+                    Column {
 
-                    TopAppBar (
-                        title = { Text("SIP Calculator") },
-                        elevation = 16.dp,
-                        actions = {
-                            IconButton(onClick = {
-                            }) {
-                                Icon(Icons.Filled.Brightness6, "Change Theme", tint = Color.White)
+                        TopAppBar(
+                            title = { Text("SIP Calculator") },
+                            elevation = 16.dp,
+                            actions = {
+                                IconButton(onClick = {
+                                }) {
+                                    Icon(
+                                        Icons.Filled.Brightness6,
+                                        "Change Theme",
+                                        tint = Color.White
+                                    )
+                                }
+                                IconButton(onClick = {
+                                    viewModel.resetAllFields()
+                                }) {
+                                    Icon(Icons.Filled.Autorenew, "Reset", tint = Color.White)
+                                }
                             }
-                            IconButton(onClick = {
-                                viewModel.resetAllFields()
-                            }) {
-                                Icon(Icons.Filled.Autorenew, "Reset", tint = Color.White)
-                            }
+                        )
+
+                        SipInputComposable(viewModel) {
+                            openResultFragment()
                         }
-                    )
-
-                    SipInputComposable(viewModel) {
-                        openResultFragment()
                     }
                 }
             }
