@@ -248,7 +248,8 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
                             )
                             DropDownList(
                                 isDropdownOpen = vm.isTopupDropdownOpen,
-                                list = TopupType.values().toList()
+                                list = TopupType.values().toList(),
+                                selected = vm.topupType.value
                             ) {
                                 vm.topupType.value = TopupType.values()[it]
                                 if (vm.topupType.value == TopupType.PERCENTAGE)
