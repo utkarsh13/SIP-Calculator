@@ -37,9 +37,12 @@ fun <T : Enum<T>> DropDownList(
         list.forEachIndexed { index, item ->
             var bgColor = MaterialTheme.colors.background
             var textColor = MaterialTheme.colors.onBackground
-            if (item == selected) {
+            if (item == selected && isDropdownOpen.value) {
                 bgColor = MaterialTheme.colors.secondary
                 textColor = MaterialTheme.colors.onSecondary
+            } else if (!isDropdownOpen.value) {
+                bgColor = MaterialTheme.colors.surface
+                textColor = MaterialTheme.colors.surface
             }
             DropdownMenuItem(
                 modifier = Modifier.wrapContentSize().background(bgColor),
