@@ -5,11 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -21,78 +19,82 @@ import com.example.sipcalculator.Utils
 import com.example.sipcalculator.model.SipModel
 import com.example.sipcalculator.theme.*
 
+@ExperimentalComposeApi
 @Composable
 fun SipResultComposable(items: List<SipModel>) {
-    Surface(color = BgColor) {
-        Column {
+    SipCalculatorTheme {
+        Surface() {
+            Column {
 
-            HeaderRow()
+                HeaderRow()
 
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                itemsIndexed(items = items) { _, item: SipModel ->
-                    Spacer(modifier = Modifier.height(8.dp))
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    itemsIndexed(items = items) { _, item: SipModel ->
+                        Spacer(modifier = Modifier.height(8.dp))
 
-                    Card(
-                        modifier = Modifier.padding(
-                            start = 8.dp, end = 8.dp, top = 0.dp
-                        ),
-                        border = if (item.years % 5 == 0 && item.years != 0) BorderStroke(
-                            2.dp,
-                            DarkGrey
-                        ) else null
-                    ) {
-
-                        Row(
-                            modifier = Modifier
-                                .padding(
-                                    start = 10.dp,
-                                    top = 9.dp,
-                                    bottom = 9.dp,
-                                    end = 10.dp
-                                )
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-
+                        Card(
+                            modifier = Modifier.padding(
+                                start = 8.dp, end = 8.dp, top = 0.dp
+                            ),
+                            border = if (item.years % 5 == 0 && item.years != 0) BorderStroke(
+                                2.dp,
+                                DarkGrey
+                            ) else null
                         ) {
-                            Text(
-                                text = "${item.years} years",
-                                style = Style.textStyleYear,
-                                modifier = Modifier.weight(14f),
-                            )
 
-                            Spacer(modifier = Modifier.width(20.dp))
+                            Row(
+                                modifier = Modifier
+                                    .padding(
+                                        start = 10.dp,
+                                        top = 9.dp,
+                                        bottom = 9.dp,
+                                        end = 10.dp
+                                    )
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
 
-                            Text(
-                                text = Utils.getMoneyInWords(item.invested),
-                                style = Style.textStyleAmount,
-                                modifier = Modifier.weight(20f),
-                                textAlign = TextAlign.Center,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
+                            ) {
+                                Text(
+                                    text = "${item.years} years",
+                                    style = Style.textStyleYear,
+                                    modifier = Modifier.weight(14f),
+                                )
 
-                            Spacer(modifier = Modifier.width(16.dp))
+                                Spacer(modifier = Modifier.width(20.dp))
 
-                            Text(
-                                text = Utils.getMoneyInWords(item.finalAmount),
-                                style = Style.textStyleAmount,
-                                modifier = Modifier.weight(18f),
-                                textAlign = TextAlign.End,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
+                                Text(
+                                    text = Utils.getMoneyInWords(item.invested),
+                                    style = Style.textStyleAmount,
+                                    modifier = Modifier.weight(20f),
+                                    textAlign = TextAlign.Center,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+
+                                Spacer(modifier = Modifier.width(16.dp))
+
+                                Text(
+                                    text = Utils.getMoneyInWords(item.finalAmount),
+                                    style = Style.textStyleAmount,
+                                    modifier = Modifier.weight(18f),
+                                    textAlign = TextAlign.End,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
                         }
-                    }
 
+                    }
                 }
             }
         }
     }
 }
 
+@ExperimentalComposeApi
 @Composable
 fun HeaderRow() {
-    Surface(color = ItemBgColor, elevation = 4.dp) {
+    Surface(color = MaterialTheme.colors.secondaryVariant, elevation = 4.dp) {
         Row(
             modifier = Modifier
                 .padding(
@@ -105,36 +107,40 @@ fun HeaderRow() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Duration",
+                text = "DURATION",
                 style = Style.textStyleHeaderRow,
                 modifier = Modifier.weight(11f),
+                color = MaterialTheme.colors.onSecondary
             )
 
             Spacer(modifier = Modifier.width(16.dp))
 
             Text(
-                text = "Amount Invested",
+                text = "AMOUNT INVESTED",
                 style = Style.textStyleHeaderRow,
                 modifier = Modifier.weight(20f),
                 textAlign = TextAlign.Center,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colors.onSecondary
             )
 
             Spacer(modifier = Modifier.width(12.dp))
 
             Text(
-                text = "Future Value",
+                text = "FUTURE VALUE",
                 style = Style.textStyleHeaderRow,
                 modifier = Modifier.weight(16f),
                 textAlign = TextAlign.End,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colors.onSecondary
             )
         }
     }
 }
 
+@ExperimentalComposeApi
 @Preview("SipResultComposable", device = Devices.DEFAULT)
 @Composable
 fun SipResultComposablePreview() {
@@ -156,6 +162,7 @@ fun SipResultComposablePreview() {
     )
 }
 
+@ExperimentalComposeApi
 @Preview("HeaderRow", device = Devices.DEFAULT)
 @Composable
 fun HeaderRowPreview() {

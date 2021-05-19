@@ -5,9 +5,7 @@ import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 
 val typography = Typography(
     body1 = TextStyle(
@@ -59,9 +57,11 @@ object Style {
         color = DarkGrey
     )
 
+    @ExperimentalComposeApi
     val textStyleHeaderRow = TextStyle(
-        fontSize = 18.sp,
-        fontWeight = FontWeight.ExtraBold,
-        color = DarkerGrey
+        fontSize = 15.sp,
+        fontWeight = FontWeight.Normal,
+        fontFamily = FontFamily.SansSerif,
+        letterSpacing = TextUnit(-0.2f, TextUnitType.Sp)
     )
 }
