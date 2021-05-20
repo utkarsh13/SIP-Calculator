@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -26,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.example.sipcalculator.model.TopupType
 import com.example.sipcalculator.theme.BgColor
 import com.example.sipcalculator.theme.DarkGrey
-import com.example.sipcalculator.theme.Grey
+import com.example.sipcalculator.theme.Shapes
 import com.example.sipcalculator.theme.Style
 import com.example.sipcalculator.viewmodels.SipInputViewModel
 
@@ -253,7 +254,8 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
                             ) {
                                 vm.topupType.value = TopupType.values()[it]
                                 if (vm.topupType.value == TopupType.PERCENTAGE)
-                                    vm.topupError.value = vm.topupValue.value.toDoubleOrNull() == null
+                                    vm.topupError.value =
+                                        vm.topupValue.value.toDoubleOrNull() == null
                                 else
                                     vm.topupError.value = vm.topupValue.value.toIntOrNull() == null
                             }
@@ -282,11 +284,15 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
                     .wrapContentWidth()
                     .align(Alignment.CenterHorizontally),
                 enabled = buttonEnabled,
-                colors = ButtonDefaults.buttonColors(disabledContentColor = Grey)
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = MaterialTheme.colors.secondary
+                ),
+                shape = RoundedCornerShape(6.dp)
             ) {
                 Text(
                     text = "Calculate projected SIP returns",
-                    style = Style.buttonStyle
+                    style = Style.buttonStyle,
+                    modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
                 )
             }
         }

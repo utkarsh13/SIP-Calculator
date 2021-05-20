@@ -24,7 +24,7 @@ val typography = Typography(
 object Style {
     val buttonStyle = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
+        fontSize = 17.sp,
     )
 
     val textStyleAmount = TextStyle(
