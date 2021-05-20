@@ -13,8 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.filled.Brightness4
 import androidx.compose.material.icons.filled.Brightness5
-import androidx.compose.material.icons.filled.Brightness6
-import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
@@ -28,7 +26,7 @@ import com.example.sipcalculator.model.TopupType
 import com.example.sipcalculator.theme.SipCalculatorTheme
 import com.example.sipcalculator.ui.MainActivity
 import com.example.sipcalculator.ui.composables.SipInputComposable
-import com.example.sipcalculator.viewmodels.SipInputViewModel
+import com.example.sipcalculator.ui.viewmodels.SipInputViewModel
 
 class SipInputFragment : Fragment() {
 

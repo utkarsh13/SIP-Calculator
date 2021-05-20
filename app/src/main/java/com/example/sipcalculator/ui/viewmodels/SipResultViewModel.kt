@@ -1,6 +1,5 @@
-package com.example.sipcalculator.viewmodels
+package com.example.sipcalculator.ui.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

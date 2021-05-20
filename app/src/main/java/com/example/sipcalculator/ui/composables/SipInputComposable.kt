@@ -27,9 +27,8 @@ import androidx.compose.ui.unit.dp
 import com.example.sipcalculator.model.TopupType
 import com.example.sipcalculator.theme.BgColor
 import com.example.sipcalculator.theme.DarkGrey
-import com.example.sipcalculator.theme.Shapes
 import com.example.sipcalculator.theme.Style
-import com.example.sipcalculator.viewmodels.SipInputViewModel
+import com.example.sipcalculator.ui.viewmodels.SipInputViewModel
 
 @SuppressLint("DefaultLocale")
 @Composable
@@ -285,7 +284,7 @@ fun SipInputComposable(vm: SipInputViewModel, calculateReturns: () -> Unit) {
                     .align(Alignment.CenterHorizontally),
                 enabled = buttonEnabled,
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colors.secondary
+                    backgroundColor = MaterialTheme.colors.secondaryVariant
                 ),
                 shape = RoundedCornerShape(6.dp)
             ) {
